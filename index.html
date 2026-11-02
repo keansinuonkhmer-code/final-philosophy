@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="km" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>កម្មវិធីត្រៀមប្រឡង Final Exam: ទស្សនវិជ្ជា និងការគិតហ្មត់ចត់ (មេរៀនទី១-១៥)</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            khmerGold: '#D4AF37',
+            khmerAmber: '#F59E0B',
+            darkBg: '#0F172A',
+            cardDark: '#1E293B',
+          },
+          fontFamily: {
+            khmer: ['Kantumruy Pro', 'Battambang', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Kantumruy Pro & Battambang -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&family=Kantumruy+Pro:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Vue 3 CDN -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+  <style>
+    body {
+      font-family: 'Kantumruy Pro', 'Battambang', sans-serif;
+    }
+    
+    /* Flashcard 3D Flip Effects */
+    .perspective-1000 {
+      perspective: 1000px;
+    }
+    .transform-style-3d {
+      transform-style: preserve-3d;
+    }
+    .backface-hidden {
+      backface-visibility: hidden;
+    }
+    .rotate-y-180 {
+      transform: rotateY(180deg);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #4F46E5;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #4338CA;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col">
+
+  <div id="app" class="flex-grow flex flex-col">
+    
+    <!-- Top Header Bar -->
+    <header class="sticky top-0 z-50 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 shadow-sm">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+        
+        <!-- App Title & Logo -->
+        <div class="flex items-center space-x-3 space-x-reverse">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 via-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-md">
+            <i class="fa-solid fa-brain text-xl"></i>
+          </div>
+          <div>
+            <h1 class="text-lg sm:text-xl font-bold bg-gradient-to-r from-amber-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent">
+              ត្រៀមប្រឡង Final Exam (មេរៀនទី១ - ទី១៥)
+            </h1>
+            <p class="text-xs text-slate-500 dark:text-slate-400">ទស្សនវិជ្ជា និងការគិតហ្មត់ចត់ (Philosophy & Critical Thinking)</p>
+          </div>
+        </div>
+
+        <!-- Right Controls: Progress Gauge & Theme Toggle -->
+        <div class="flex items-center space-x-4">
+          <!-- Study Progress Badge -->
+          <div class="hidden md:flex items-center space-x-2 bg-slate-100 dark:bg-slate-700/50 px-3 py-1.5 rounded-full text-xs font-medium">
+            <i class="fa-solid fa-graduation-cap text-amber-500"></i>
+            <span>វឌ្ឍនភាពរៀន៖ {{ progressPercent }}%</span>
+          </div>
+
+          <!-- Dark Mode Toggle -->
+          <button @click="toggleTheme" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 transition-all">
+            <i class="fa-solid" :class="isDarkMode ? 'fa-sun text-amber-400' : 'fa-moon text-indigo-500'"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Hero Banner with Search Bar -->
+    <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white py-8 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+          
+          <div class="md:col-span-2">
+            <span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-semibold rounded-full mb-3">
+              <i class="fa-solid fa-book-bookmark mr-1"></i> កម្មវិធីរំលឹកមេរៀនពេញលេញ (មេរៀនទី១ ដល់ ទី១៥)
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-bold leading-tight mb-2">
+              ប្រព័ន្ធស្វ័យសិក្សា និងប្រឡងល្បងសមត្ថភាព
+            </h2>
+            <p class="text-slate-300 text-sm max-w-2xl">
+              ប្រមូលផ្តុំសង្ខេបមេរៀនទី១ ដល់ទី១៥, វិធីតក្កវិជ្ជាទាំង ១៣, ទស្សនវិជ្ជាភាសា, សោភណ្ឌវិជ្ជា, ពុទ្ធិវិជ្ជា (John Locke, Nietzsche, ព្រះពុទ្ធ), និងសីលវិជ្ជាគ្រប់ជ្រុងជ្រោយ។
+            </p>
+          </div>
+
+          <!-- Quick Search Box -->
+          <div class="bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/10 shadow-lg">
+            <label class="block text-xs font-semibold text-slate-300 mb-2">
+              <i class="fa-solid fa-magnifying-glass text-amber-400 mr-1"></i> ស្វែងរកមេរៀន ឬពាក្យគន្លឹះ៖
+            </label>
+            <div class="relative">
+              <input 
+                v-model="searchQuery" 
+                type="text" 
+                placeholder="ឧ. វិធីអនុមាន, ចន ឡក, នីឈើ, សោភណ្ឌ..."
+                class="w-full pl-9 pr-4 py-2.5 bg-slate-800/80 border border-slate-600 rounded-xl text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400 transition"
+              />
+              <i class="fa-solid fa-search absolute left-3 top-3 text-slate-400 text-sm"></i>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 shadow-sm sticky top-[61px] z-40">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav class="flex space-x-2 sm:space-x-6 overflow-x-auto py-2 scrollbar-none" aria-label="Tabs">
+          <button 
+            v-for="tab in tabs" 
+            :key="tab.id"
+            @click="activeTab = tab.id"
+            :class="[
+              activeTab === tab.id 
+                ? 'bg-indigo-600 text-white shadow-md' 
+                : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700',
+              'px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center space-x-2 whitespace-nowrap transition-all'
+            ]"
+          >
+            <i :class="tab.icon"></i>
+            <span>{{ tab.name }}</span>
+            <span v-if="tab.badge" class="ml-1.5 px-2 py-0.5 text-xs rounded-full bg-amber-400 text-slate-900 font-bold">
+              {{ tab.badge }}
+            </span>
+          </button>
+        </nav>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+
+      <!-- ==================== TAB 1: ALL 15 LESSONS ==================== -->
+      <div v-if="activeTab === 'lessons'" class="space-y-8">
+        
+        <!-- Filter Buttons for Lessons -->
+        <div class="flex flex-wrap gap-2 items-center bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700">
+          <span class="text-xs font-bold text-slate-500 mr-2"><i class="fa-solid fa-filter text-amber-500 mr-1"></i> តម្រងមេរៀន៖</span>
+          <button 
+            @click="selectedLessonFilter = 'all'"
+            :class="selectedLessonFilter === 'all' ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300'"
+            class="px-3 py-1.5 rounded-xl text-xs font-semibold transition"
+          >
+            ទាំងអស់ (មេរៀន ១-១៥)
+          </button>
+          <button 
+            v-for="num in 15" 
+            :key="num"
+            @click="selectedLessonFilter = num"
+            :class="selectedLessonFilter === num ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300'"
+            class="px-2.5 py-1.5 rounded-xl text-xs font-semibold transition"
+          >
+            មេរៀនទី {{ num }}
+          </button>
+        </div>
+
+        <!-- Filterable Lesson Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div 
+            v-for="lesson in filteredLessons" 
+            :key="lesson.id"
+            class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden group"
+          >
+            <!-- Card Header Header Color Band -->
+            <div :class="['h-3 w-full bg-gradient-to-r', lesson.color]"></div>
+
+            <div class="p-6 flex-grow flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-indigo-50 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800">
+                    {{ lesson.chapter }}
+                  </span>
+                  <button 
+                    @click="toggleStudyStatus(lesson.id)" 
+                    :class="studiedLessons.includes(lesson.id) ? 'text-emerald-500' : 'text-slate-300 dark:text-slate-600'"
+                    class="text-lg hover:scale-110 transition"
+                    title="ចំណាំថារៀនរួច"
+                  >
+                    <i class="fa-solid fa-circle-check"></i>
+                  </button>
+                </div>
+
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-indigo-500 transition-colors mb-2">
+                  {{ lesson.title }}
+                </h3>
+                
+                <p class="text-slate-600 dark:text-slate-300 text-sm mb-4 line-clamp-3">
+                  {{ lesson.subtitle }}
+                </p>
+
+                <!-- Key Concepts Badges -->
+                <div class="flex flex-wrap gap-1.5 mb-4">
+                  <span 
+                    v-for="(tag, idx) in lesson.tags" 
+                    :key="idx"
+                    class="px-2 py-0.5 text-[11px] bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-md font-medium"
+                  >
+                    # {{ tag }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Action Button -->
+              <button 
+                @click="openLessonModal(lesson)"
+                class="w-full mt-4 py-2.5 px-4 bg-slate-100 dark:bg-slate-700 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 text-slate-700 dark:text-slate-200 text-sm font-semibold rounded-xl transition-all flex items-center justify-center space-x-2"
+              >
+                <span>អានខ្លឹមសារមេរៀនពេញ</span>
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ==================== TAB 2: LOGICAL METHODS (13 METHODS) ==================== -->
+      <div v-if="activeTab === 'methods'" class="space-y-8">
+        
+        <div class="bg-gradient-to-r from-slate-900 to-indigo-950 text-white p-6 sm:p-8 rounded-3xl shadow-xl border border-slate-700">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center text-slate-900 text-2xl font-bold">
+              <i class="fa-solid fa-diagram-project"></i>
+            </div>
+            <div>
+              <h3 class="text-2xl font-bold text-amber-400">វិធីតក្កវិជ្ជាទាំង ១៣ យ៉ាង (មេរៀនទី៦)</h3>
+              <p class="text-slate-300 text-sm">វិធីសាស្ត្រគិត និងទាញហេតុផលវិទ្យាសាស្ត្រសម្រាប់អ្នកសិក្សាស្រាវជ្រាវ</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div 
+            v-for="(method, idx) in logicalMethods" 
+            :key="idx"
+            class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-md hover:border-indigo-500 transition flex flex-col justify-between"
+          >
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <span class="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-300 font-bold flex items-center justify-center text-sm">
+                  {{ idx + 1 }}
+                </span>
+                <span class="text-xs font-semibold px-2.5 py-1 bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 rounded-md">
+                  តក្កវិជ្ជា
+                </span>
+              </div>
+              <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-2">
+                {{ method.title }}
+              </h4>
+              <p class="text-xs text-indigo-500 dark:text-indigo-400 font-semibold mb-3">
+                {{ method.english }}
+              </p>
+              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                {{ method.description }}
+              </p>
+            </div>
+
+            <div v-if="method.example" class="bg-slate-50 dark:bg-slate-900/60 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300 font-mono">
+              <span class="font-bold text-amber-500 block mb-1">ឧទាហរណ៍/ការអនុវត្ត៖</span>
+              {{ method.example }}
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ==================== TAB 3: FLASHCARDS ==================== -->
+      <div v-if="activeTab === 'flashcards'" class="space-y-6">
+        
+        <!-- Header Info -->
+        <div class="bg-indigo-50 dark:bg-slate-800 p-6 rounded-2xl border border-indigo-100 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-1">
+              <i class="fa-solid fa-layer-group text-amber-500 mr-2"></i> បណ្ណពាក្យគន្លឹះ និងសញ្ញាណ (Interactive Flashcards)
+            </h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300">
+              ចុចលើបណ្ណដើម្បីក្រឡប់ (Flip) មើលនិយមន័យ និងឧទាហរណ៍ជាក់ស្តែងនៃពាក្យគន្លឹះនីមួយៗ។
+            </p>
+          </div>
+          
+          <!-- Category Filter -->
+          <div class="flex items-center space-x-2">
+            <span class="text-xs font-semibold text-slate-500">តម្រង៖</span>
+            <select v-model="selectedFlashcardCategory" class="bg-white dark:bg-slate-700 text-slate-800 dark:text-white text-xs font-medium px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-600 focus:outline-none">
+              <option value="all">ពាក្យទាំងអស់</option>
+              <option value="standards">ស្តង់ដារការគិត</option>
+              <option value="metaphysics">អស្តិរូបវិជ្ជា</option>
+              <option value="epistemology">ពុទ្ធិវិជ្ជា</option>
+              <option value="ethics">សីលវិជ្ជា</option>
+              <option value="aesthetics">សោភណ្ឌវិជ្ជា</option>
+              <option value="linguistics">ភាសាវិទ្យា</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Flashcards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div 
+            v-for="(card, index) in filteredFlashcards" 
+            :key="index"
+            @click="card.flipped = !card.flipped"
+            class="h-64 cursor-pointer perspective-1000 group"
+          >
+            <div 
+              :class="['w-full h-full duration-500 transform-style-3d transition-transform relative rounded-2xl shadow-md group-hover:shadow-xl border border-slate-200 dark:border-slate-700', card.flipped ? 'rotate-y-180' : '']"
+            >
+              <!-- Front Side -->
+              <div class="absolute inset-0 w-full h-full bg-white dark:bg-slate-800 rounded-2xl p-6 flex flex-col justify-between backface-hidden">
+                <div class="flex justify-between items-start">
+                  <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300">
+                    {{ card.categoryLabel }}
+                  </span>
+                  <i class="fa-solid fa-rotate text-slate-400 group-hover:text-indigo-500 transition"></i>
+                </div>
+                
+                <div class="text-center my-auto">
+                  <h4 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                    {{ card.term }}
+                  </h4>
+                  <p class="text-xs text-indigo-600 dark:text-indigo-400 font-semibold tracking-wide">
+                    {{ card.english }}
+                  </p>
+                </div>
+
+                <div class="text-center text-xs text-slate-400 dark:text-slate-500">
+                  <i class="fa-solid fa-hand-pointer mr-1"></i> ចុចដើម្បីមើលនិយមន័យ
+                </div>
+              </div>
+
+              <!-- Back Side -->
+              <div class="absolute inset-0 w-full h-full bg-indigo-900 text-white rounded-2xl p-6 flex flex-col justify-between rotate-y-180 backface-hidden border-2 border-indigo-500">
+                <div>
+                  <div class="flex justify-between items-center mb-3">
+                    <span class="text-xs font-bold text-amber-400">{{ card.term }}</span>
+                    <i class="fa-solid fa-circle-info text-amber-400"></i>
+                  </div>
+                  <p class="text-sm leading-relaxed text-slate-100 mb-3">
+                    {{ card.definition }}
+                  </p>
+                </div>
+
+                <div v-if="card.example" class="bg-indigo-950/60 p-2.5 rounded-xl border border-indigo-700/50 text-xs text-indigo-200">
+                  <span class="font-bold text-amber-300">ឧទាហរណ៍៖</span> {{ card.example }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ==================== TAB 4: GLOSSARY ==================== -->
+      <div v-if="activeTab === 'glossary'" class="space-y-6">
+        
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-md">
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center">
+            <i class="fa-solid fa-book text-indigo-500 mr-2"></i> វចនានុក្រមសព្ទវិជ្ជា និងបញ្ញត្តិទស្សនវិជ្ជា (Glossary of Terms)
+          </h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div 
+              v-for="(item, i) in masterTerms" 
+              :key="i"
+              class="p-4 rounded-xl bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 hover:border-indigo-500 transition"
+            >
+              <div class="flex items-start justify-between mb-2">
+                <h4 class="font-bold text-slate-900 dark:text-white text-base">
+                  {{ item.khmer }}
+                </h4>
+                <span class="text-xs px-2 py-0.5 rounded bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-300 font-semibold">
+                  {{ item.tag }}
+                </span>
+              </div>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mb-2 italic">
+                {{ item.english }}
+              </p>
+              <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                {{ item.meaning }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ==================== TAB 5: PRACTICE QUIZ ==================== -->
+      <div v-if="activeTab === 'quiz'" class="space-y-6">
+        
+        <!-- Quiz Intro / Score Board -->
+        <div class="bg-gradient-to-r from-indigo-600 to-blue-700 text-white p-6 rounded-2xl shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <h3 class="text-2xl font-bold mb-1">
+              <i class="fa-solid fa-pen-to-square mr-2"></i> ប្រព័ន្ធធ្វើតេស្តល្បងសមត្ថភាព (Practice Exam)
+            </h3>
+            <p class="text-indigo-100 text-xs sm:text-sm">
+              សំណួរជ្រើសរើសពហុចម្លើយ (Multiple Choice) ដកស្រង់ចេញពីមេរៀនទី១ ដល់ទី១៥ ព្រមទាំងមានការពន្យល់លម្អិត។
+            </p>
+          </div>
+
+          <div class="flex items-center space-x-3 bg-white/10 backdrop-blur-md px-4 py-3 rounded-xl border border-white/20">
+            <div class="text-center">
+              <span class="block text-2xl font-bold text-amber-300">{{ quizScore }} / {{ quizQuestions.length }}</span>
+              <span class="text-[10px] uppercase tracking-wider text-slate-200">ពិន្ទុទទួលបាន</span>
+            </div>
+            <button @click="resetQuiz" class="ml-3 p-2 bg-amber-400 hover:bg-amber-300 text-slate-900 rounded-lg text-xs font-bold transition">
+              <i class="fa-solid fa-rotate-right mr-1"></i> ធ្វើឡើងវិញ
+            </button>
+          </div>
+        </div>
+
+        <!-- Question Cards Loop -->
+        <div class="space-y-6">
+          <div 
+            v-for="(q, qIndex) in quizQuestions" 
+            :key="q.id"
+            class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-md transition"
+          >
+            <!-- Question Title & Chapter -->
+            <div class="flex items-start justify-between mb-4">
+              <span class="text-xs font-bold px-2.5 py-1 bg-slate-100 dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 rounded-md">
+                សំណួរទី {{ qIndex + 1 }} • {{ q.lessonRef }}
+              </span>
+              <span v-if="q.userAnswer !== null" :class="q.userAnswer === q.correctAnswer ? 'text-emerald-500 font-bold text-xs' : 'text-rose-500 font-bold text-xs'">
+                <i :class="q.userAnswer === q.correctAnswer ? 'fa-solid fa-circle-check' : 'fa-solid fa-circle-xmark'"></i>
+                {{ q.userAnswer === q.correctAnswer ? ' ត្រឹមត្រូវ' : ' មិនត្រឹមត្រូវ' }}
+              </span>
+            </div>
+
+            <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-4">
+              {{ q.question }}
+            </h4>
+
+            <!-- Options -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+              <button 
+                v-for="(opt, optIdx) in q.options" 
+                :key="optIdx"
+                @click="selectAnswer(qIndex, optIdx)"
+                :disabled="q.userAnswer !== null"
+                :class="[
+                  getOptionClass(q, optIdx),
+                  'p-3.5 rounded-xl text-left text-sm font-medium transition flex items-center justify-between border'
+                ]"
+              >
+                <span>{{ opt }}</span>
+                <i v-if="q.userAnswer === optIdx && optIdx === q.correctAnswer" class="fa-solid fa-check text-emerald-600 dark:text-emerald-400"></i>
+                <i v-if="q.userAnswer === optIdx && optIdx !== q.correctAnswer" class="fa-solid fa-xmark text-rose-600 dark:text-rose-400"></i>
+              </button>
+            </div>
+
+            <!-- Explanation Box -->
+            <div v-if="q.userAnswer !== null" class="mt-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm">
+              <span class="font-bold text-indigo-600 dark:text-indigo-400 block mb-1">
+                <i class="fa-solid fa-lightbulb mr-1"></i> ការពន្យល់៖
+              </span>
+              <p class="text-slate-700 dark:text-slate-300">
+                {{ q.explanation }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- LESSON DETAIL MODAL -->
+    <div v-if="activeLessonModal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+      <div class="bg-white dark:bg-slate-800 w-full max-w-4xl rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col my-8 max-h-[90vh]">
+        
+        <!-- Modal Header -->
+        <div :class="['p-6 text-white bg-gradient-to-r flex justify-between items-start', activeLessonModal.color]">
+          <div>
+            <span class="px-2.5 py-1 bg-black/20 rounded-md text-xs font-bold uppercase tracking-wider mb-2 inline-block">
+              {{ activeLessonModal.chapter }}
+            </span>
+            <h3 class="text-2xl font-bold">{{ activeLessonModal.title }}</h3>
+            <p class="text-xs text-slate-100 mt-1">{{ activeLessonModal.subtitle }}</p>
+          </div>
+          <button @click="activeLessonModal = null" class="w-9 h-9 bg-black/20 hover:bg-black/40 rounded-full flex items-center justify-center text-white transition">
+            <i class="fa-solid fa-xmark text-lg"></i>
+          </button>
+        </div>
+
+        <!-- Modal Body Content -->
+        <div class="p-6 sm:p-8 overflow-y-auto space-y-6 text-slate-800 dark:text-slate-200 text-sm leading-relaxed">
+          <div v-html="activeLessonModal.fullContent"></div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="p-4 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 flex justify-between items-center">
+          <button 
+            @click="toggleStudyStatus(activeLessonModal.id)"
+            :class="studiedLessons.includes(activeLessonModal.id) ? 'bg-emerald-600 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300'"
+            class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-2"
+          >
+            <i class="fa-solid fa-check-circle"></i>
+            <span>{{ studiedLessons.includes(activeLessonModal.id) ? 'បានរៀនរួចរាល់' : 'កត់ត្រាថារៀនរួច' }}</span>
+          </button>
+
+          <button @click="activeLessonModal = null" class="px-5 py-2 bg-indigo-600 text-white rounded-xl text-xs font-bold hover:bg-indigo-700 transition">
+            បិទផ្ទាំង
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 py-6 text-center text-xs text-slate-500 dark:text-slate-400 mt-auto">
+      <div class="max-w-7xl mx-auto px-4">
+        <p class="font-semibold text-slate-700 dark:text-slate-300 mb-1">
+          ប្រព័ន្ធរំលឹកមេរៀនត្រៀមប្រឡង Final Exam (មេរៀនទី១ ដល់ ទី១៥) មុខវិជ្ជា៖ ទស្សនវិជ្ជា និងការគិតហ្មត់ចត់
+        </p>
+        <p>© 2026 Interactive Philosophy Study Suite. រក្សាសិទ្ធិគ្រប់យ៉ាង។</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- VUE V3 APPLICATION SCRIPT -->
+  <script>
+    const { createApp } = Vue;
+
+    createApp({
+      data() {
+        return {
+          isDarkMode: true,
+          searchQuery: '',
+          activeTab: 'lessons',
+          selectedLessonFilter: 'all',
+          activeLessonModal: null,
+          selectedFlashcardCategory: 'all',
+          studiedLessons: [],
+          
+          tabs: [
+            { id: 'lessons', name: 'មេរៀនទាំង ១៥', icon: 'fa-solid fa-book-open' },
+            { id: 'methods', name: 'វិធីតក្កវិជ្ជាទាំង ១៣', icon: 'fa-solid fa-diagram-project', badge: 'HOT' },
+            { id: 'flashcards', name: 'បណ្ណពាក្យ Flashcards', icon: 'fa-solid fa-layer-group' },
+            { id: 'glossary', name: 'វចនានុក្រមទស្សនវិជ្ជា', icon: 'fa-solid fa-book' },
+            { id: 'quiz', name: 'ធ្វើតេស្តត្រៀមប្រឡង', icon: 'fa-solid fa-pen-to-square' }
+          ],
+
+          // 13 Logical Methods Data (From Lesson 6)
+          logicalMethods: [
+            { title: '១. វិធីអនុមានរួម', english: 'Inductive Method', description: 'ពិនិត្យសង្កេតវត្ថុ/បាតុភូតជាច្រើនករណី កត់សម្គាល់លក្ខណៈរួម រួចឈានទៅធ្វើទូទៅនីយកម្ម បង្កើតជាទ្រឹស្តី ឬនិយមន័យរួម។', example: 'សង្កេតក្អែកនៅភ្នំពេញ បាត់ដំបង និងសៀមរាប ឃើញពណ៌ខ្មៅ ➔ សន្និដ្ឋានថា ក្អែកទាំងអស់មានពណ៌ខ្មៅ។' },
+            { title: '២. វិធីអនុមានញែក', english: 'Deductive Method', description: 'លើកយកទ្រឹស្តីរួមមួយមកសិក្សា រួចដកយកករណីជាក់ស្តែងមកពិនិត្យលក្ខណៈពិសេសដោយឡែក ដើម្បីបង្កើតនិយមន័យដោយឡែក។', example: 'ចតុកោណមាន ៤ ជ្រុង ➔ ដកស្រង់ប្រលេឡូក្រាមដែលបន្ថែមលក្ខណៈជ្រុងឈមស្របគ្នា ➔ ប្រលេឡូក្រាម។' },
+            { title: '៣. វិធីវិភាគ-បដិសំយោគ', english: 'Analytical-Synthetical Method', description: 'បំបែកវត្ថុជាសមាសភាគតូចៗដើម្បីសិក្សាសារធាតុ រួចផ្តុំចូលគ្នាមកវិញដើម្បីវិនិច្ឆ័យសច្ចភាព និងសក្តានុពល។', example: 'ការធ្វើរោគវិនិច្ឆ័យជំងឺរបស់វេជ្ជបណ្ឌិត ដោយពិនិត្យផ្នែកនីមួយៗ រួចសំយោគបូកសរុប។' },
+            { title: '៤. វិធីវិភាគ', english: 'Analytical Method', description: 'បំបែកវត្ថុ ឬបាតុភូតជាផ្នែកតូចៗ សិក្សាពីសារធាតុ ទម្រង់ សារជាតិ និងដំណើរប្រព្រឹត្តទៅក្នុងរចនាសម្ព័ន្ធ។', example: 'ការបំបែកកថាខណ្ឌជាល្បះ និងពាក្យ ដើម្បីវិភាគន័យ។' },
+            { title: '៥. វិធីរូបធាតុនិយមបដិសំយោគ', english: 'Dialectical Materialism', description: 'មើលឃើញវត្ថុមួយផ្គុំដោយធាតុ ២ បដិបក្ខគ្នា (ធាតុទ្រង់ និងធាតុបំផ្លាញ) ប៉ុន្តែបំពេញឱ្យគ្នា និងទ្រទ្រង់គ្នាទៅវិញទៅមក។', example: 'អាគុយ (បន្ទុក + និង -), យិន និង យ៉ាង, ប្រុស និង ស្រី។' },
+            { title: '៦. វិធីមនោនិយមបដិសំយោគ', english: 'Dialectical Idealism (Hegel)', description: 'បង្កើតលំហ ៣ ក្នុងខួរក្បាល៖ គំនិតដើម (Thesis), គំនិតផ្ទុយ (Anti-Thesis), និងការសំយោគជ្រើសរើស (Synthesis)។', example: 'គំនិត A vs គំនិត B ➔ ថ្លឹងថ្លែងទឡីករណ៍ ➔ សម្រេចជ្រើសរើសគំនិត Synthesis ដែលមានសច្ចភាព។' },
+            { title: '៧. វិធីវិចារផ្ទុយ/ផ្ទៀងផ្ទាត់សម្មតិកម្ម', english: 'Hypothesis Testing / Reversal', description: 'សន្មតចម្លើយថ្មីផ្ទុយពីសម្មតិកម្ម។ បើវិចារផ្ទុយត្រឹមត្រូវ ➔ សម្មតិកម្មខុស; បើវិចារផ្ទុយខុស ➔ សម្មតិកម្មត្រឹមត្រូវ។', example: 'រឿងយុវជនចាប់ឆ្នោតក្នុងស្បោងស្តេច៖ ចាប់បានពណ៌ខ្មៅតែប្រកាសថាពណ៌ស ធ្វើឱ្យស្តេចត្រូវទទួលស្គាល់។' },
+            { title: '៨. វិធីប្រវត្តិ-តក្ក', english: 'Historical-Logical Method', description: 'គួបផ្សំការពិនិត្យដំណើរវិវត្តន៍តាមប្រវត្តិសាស្ត្រ (កកើត-រីកចម្រើន-បញ្ចប់) ជាមួយក្រឹត្យក្រមតក្កវិជ្ជាអរូបកម្ម។', example: 'ការសិក្សាដំណាក់កាលលូតលាស់នៃដំណាំប៉េងប៉ោះ ពីគ្រាប់ រហូតដល់ចេញផ្លែ។' },
+            { title: '៩. វិធីប្រព័ន្ធ-រចនាសម្ព័ន្ធ', english: 'System-Structural Method', description: 'បូកសរុបកត្តាដែលមានទំនាក់ទំនង និងជះឥទ្ធិពលទៅវិញទៅមក បង្កើតបានជា «បរិស្ថាននៃការគិត» និងរចនាសម្ព័ន្ធ។', example: 'ការរៀបរាប់ពីរថយន្ត តាមរយៈរចនាសម្ព័ន្ធគ្រឿងបន្លាស់ និងប្រព័ន្ធដំណើរការ។' },
+            { title: '១០. វិធីគិតអរូបកម្ម-រូបកម្ម', english: 'Abstract to Concrete Method', description: 'ប្រើអរូបកម្មដើម្បីស្វែងរកសារជាតិ រួចបំលែងគំនិត/ទ្រឹស្តី (រូបកម្ម) ឱ្យទៅជាការប្រតិបត្តិជាក់ស្តែងក្នុងតថភាព។', example: 'ការរៀបចំចក្ខុវិស័យ និងផែនការអភិវឌ្ឍន៍ជាតិ ឱ្យក្លាយជាលទ្ធផលជាក់ស្តែងនាឆ្នាំ២០៥០។' },
+            { title: '១១. វិធីប្រៀបធៀប', english: 'Comparative Method', description: 'ប្រៀបធៀបវត្ថុ/បាតុភូត ២ ឬច្រើន ដើម្បីរកលក្ខណៈដូចគ្នា និងខុសគ្នា (ឧ. ទស្សនវិជ្ជា vs វិទ្យាសាស្ត្រដទៃ)។', example: 'ទស្សនវិជ្ជាមានកម្មវត្ថុបើកទូលាយ ឯវិទ្យាសាស្ត្រដទៃមានកម្មវត្ថុបង្រួមតូច និងឯកទេស។' },
+            { title: '១២. វិធីធ្វើទឡីកម្ម', english: 'Argumentative / Demonstrative Method', description: 'ការធ្វើអំណះអំណាងដោយបញ្ចេញទស្សនៈផ្ទាល់ខ្លួន គាំទ្រដោយទឡីករណ៍រឹងមាំ និងមានអត្តសញ្ញាណច្បាស់លាស់។', example: 'ការការពារសារណា/និក្ខេបបទ ដោយលើកឡើងនូវភស្តុតាង និងតក្កភាព។' },
+            { title: '១៣. ការគិតស្របតថភាព vs ការគិតស្របការគិត', english: 'Truth-Reality Alignment', description: 'ផ្ទៀងផ្ទាត់ថាការគិតស្របនឹងការពិតជាក់ស្តែង (តថភាព) និងមានសង្គតភាពខាងតក្កវិជ្ជា (ការគិតស្របការគិត)។', example: 'អំបិលប្រៃ (តថភាព) ➔ គិតថាអំបិលប្រៃ (ការគិតស្របតថភាព)។' }
+          ],
+
+          // Comprehensive 15 Lessons Data
+          lessons: [
+            {
+              id: 1,
+              chapter: 'មេរៀនទី១',
+              title: 'បញ្ញត្តិនៃការសិក្សាទស្សនវិជ្ជា',
+              subtitle: 'និយមន័យទស្សនវិជ្ជាតាមអ្នកប្រាជ្ញ ជំហានទី១ និងជំហានទី២ នៃការគិត',
+              tags: ['ពីតាហ្គ័រ', 'អារីស្តូត', 'Marilyn Smith', 'ព្រះពុទ្ធ', 'ជំហានពិចារណា ៧'],
+              color: 'from-amber-500 to-indigo-600',
+              fullContent: `
+                <h4 class="text-lg font-bold text-indigo-500 mb-2">១. បញ្ញត្តិនៃការសិក្សា</h4>
+                <p class="mb-3">ការសិក្សាគឺសំដៅលើការលះបង់ពេលវេលា និងការយកចិត្តទុកដាក់ ដើម្បីទទួលបានចំណេះដឹងពីមុខវិជ្ជាសិក្សា តាមរយៈមេរៀន សៀវភៅ និងការវិភាគ។ គេចែកអង្គ ៤ នៃការសិក្សាទាមទារឱ្យមាន៖ <b>ចំណេះដឹង បំណិន ឥរិយាបថ និងការគិតហ្មត់ចត់</b>។</p>
+                
+                <h4 class="text-lg font-bold text-indigo-500 mb-2">២. និយមន័យ «ទស្សនវិជ្ជា» តាមទស្សនវិទូសំខាន់ៗ</h4>
+                <ul class="list-disc pl-5 space-y-2 mb-4">
+                  <li><b>លោក ពីតាហ្គ័រ (Pythagoras)៖</b> ទស្សនវិជ្ជាមកពីក្រិក <i>Philosophia</i> (Philia = ស្រឡាញ់ + Sophia = គតិបណ្ឌិត/ចំណេះដឹង) គឺ <b>«ការស្រឡាញ់គតិបណ្ឌិត»</b>។</li>
+                  <li><b>លោក អារីស្តូត (Aristotle)៖</b> ទស្សនវិជ្ជាគឺជាការពិចារណាស្វែងរកការពិត (សច្ចភាព) ដោយផ្អែកលើបទពិសោធន៍ និងមធ្យោបាយដែលមាន។</li>
+                  <li><b>Marilyn S. Smith៖</b> ទស្សនវិជ្ជាគឺជាកម្រងចំណោទបញ្ហា និងការស្វែងរកដំណោះស្រាយបញ្ហា។</li>
+                  <li><b>ព្រះពុទ្ធ៖</b> ទស្សនវិជ្ជាគឺជាតម្លៃអប់រំយ៉ាងជ្រាលជ្រៅ (មិនមានរោគជាលាភឧត្តម, អវិជ្ជាជាប្រភពទុក្ខ...)។</li>
+                  <li><b>បណ្ឌិត ចយ យីហ៊ាង៖</b> ទស្សនវិជ្ជាគឺជា «វិទ្យាសាស្ត្រនៃវិទ្យាសាស្ត្រ» ឬជា «បិតានៃវិទ្យាសាស្ត្រ»។</li>
+                </ul>
+
+                <h4 class="text-lg font-bold text-indigo-500 mb-2">៣. ជំហានទី១៖ ការគិតបែបទស្សនវិជ្ជា (២ បែប)</h4>
+                <p class="mb-2">១- <b>ការគិតបែបរិះគន់ (Critical Thinking)៖</b> ការពិចារណាលើគំនិត ទ្រឹស្តី ឬបាតុភូត ឱ្យមានភាពជាក់លាក់ថា ត្រឹមត្រូវ/មិនត្រឹមត្រូវ មានប្រយោជន៍/គ្មានប្រយោជន៍។</p>
+                <p class="mb-4">២- <b>ការគិតបែបប្រឌិតញាណ (Creative Intuitive Thinking)៖</b> ការពិចារណាបង្កើតជាគំរូគំនិតថ្មី ទ្រឹស្តីថ្មី ឬរូបមន្តថ្មី។</p>
+
+                <h4 class="text-lg font-bold text-indigo-500 mb-2">៤. ជំហានទី២៖ ការពិចារណាបែបទស្សនវិជ្ជា (៧ បែប)</h4>
+                <ol class="list-decimal pl-5 space-y-1">
+                  <li>ស្វែងរកចំណោទបញ្ហា</li>
+                  <li>ប្រមូលទិន្នន័យ</li>
+                  <li>រៀបចំ វិភាគ និងវាយតម្លៃទិន្នន័យ</li>
+                  <li>ធ្វើបុរេសន្មត់ (សម្មតិកម្ម)</li>
+                  <li>សាកល្បងពន្យល់បកស្រាយ ឬពិសោធន៍</li>
+                  <li>រិះគន់របកគំហើញសច្ចៈភាព ដើម្បីបញ្ជាក់ប្រាកដភាព</li>
+                  <li>បំលែងរបកគំហើញឱ្យទៅជាការប្រតិបត្តិជាក់ស្តែង</li>
+                </ol>
+              `
+            },
+            {
+              id: 2,
+              chapter: 'មេរៀនទី២',
+              title: 'មូលដ្ឋានគ្រឹះ និងទ្រឹស្តីនៃការគិតហ្មត់ចត់',
+              subtitle: 'ស្តង់ដារ ៨ យ៉ាង, ឧបសគ្គនៃការគិត, និងលក្ខណៈរបស់អ្នកគិតហ្មត់ចត់',
+              tags: ['Clarity', 'Precision', 'Egocentrism', 'Sociocentrism', 'Relativistic'],
+              color: 'from-blue-600 to-cyan-500',
+              fullContent: `
+                <h4 class="text-lg font-bold text-blue-500 mb-2">១. តើអ្វីជាការគិតហ្មត់ចត់?</h4>
+                <p class="mb-4">ការគិតហ្មត់ចត់ (Critical Thinking) គឺជាការគិតដោយប្រើពុទ្ធិ និងបញ្ញាឆ្លាតវៃ ប្រកបដោយវិន័យ បែបបទត្រឹមត្រូវ មានស្តង់ដារច្បាស់លាស់ ភាពជាក់លាក់ សច្ចភាព សង្គតភាព ភាពត្រឹមត្រូវខាងតក្កវិជ្ជា ភាពពេញលេញ និងយុត្តិធម៌។</p>
+
+                <h4 class="text-lg font-bold text-blue-500 mb-2">២. ស្តង់ដារ ៨ យ៉ាងនៃការគិតហ្មត់ចត់ (Critical Thinking Standards)</h4>
+                <ul class="list-disc pl-5 space-y-1 mb-4">
+                  <li><b>១. ភាពច្បាស់លាស់ (Clarity)៖</b> យល់ច្បាស់ពីអ្វីដែលគេកំពុងនិយាយ ឬធ្វើ, គិតហើយសិមគូ។</li>
+                  <li><b>២. ភាពជាក់លាក់ (Precision)៖</b> ប្រើក្នុងវេជ្ជសាស្ត្រ, គណិត, ស្ថាបត្យកម្ម (ឆ្លងកាត់ ៥ ជំហានពិសោធន៍)។</li>
+                  <li><b>៣. ភាពត្រឹមត្រូវ (Accuracy)៖</b> គិតត្រូវធ្វើត្រូវ គិតខុសធ្វើខុស។</li>
+                  <li><b>៤. ភាពត្រឹមត្រូវបែបតក្កវិជ្ជា (Logical Correctness)៖</b> ការវែកញែកសមហេតុសមផល។</li>
+                  <li><b>៥. សង្គតភាព (Consistency)៖</b> គ្មានទំនាស់តក្កវិជ្ជា និងគ្មានទំនាស់ជាក់ស្តែង (មិននិយាយបាតដៃខ្នងដៃ)។</li>
+                  <li><b>៦. ភាពពាក់ព័ន្ធ (Relevance)៖</b> មានទំនាក់ទំនងដោយផ្ទាល់ និងសមស្របទៅនឹងប្រធានបទ។</li>
+                  <li><b>៧. ភាពពេញលេញ (Completeness)៖</b> ការគិតស៊ីជម្រៅ មិនរាក់ៗ ឬស្រពិចស្រពិល។</li>
+                  <li><b>៨. ភាពត្រឹមត្រូវតាមច្បាប់/យុត្តិធម៌ (Fairness)៖</b> បើកចិត្តឱ្យទូលាយ មិនលំអៀង គ្មានការបំភ្លៃ។</li>
+                </ul>
+
+                <h4 class="text-lg font-bold text-blue-500 mb-2">៣. ឧបសគ្គសំខាន់ៗនៃការគិតហ្មត់ចត់</h4>
+                <ul class="list-disc pl-5 space-y-2">
+                  <li><b>អាត្មានិយម/អត្តទត្ថនិយម (Egocentrism)៖</b> ផ្តោតលើតែប្រយោជន៍ខ្លួន (Self-interested thinking) និង ភាពលំអៀងនៃការបម្រើខ្លួនឯង (Self-serving bias)។</li>
+                  <li><b>ក្រុមសង្គមនិយម (Sociocentrism)៖</b> ភាពលំអៀងជាក្រុម (In-group bias) និង ការអនុលោមនិយម (Conformism - ធ្វើតាមហ្វូង)។</li>
+                  <li><b>ការគិតមិនដាច់ខាត (Relativistic Thinking)៖</b> ប្រធានវិស័យភាពនិយម (Subjectivism) និង វប្បធម៌មិនដាច់ខាតនិយម (Cultural Relativism)។</li>
+                  <li><b>ការគិតបែបប្រាថ្នា (Wishful Thinking)៖</b> ជឿអ្វីមួយដោយសារវាធ្វើឱ្យមានអារម្មណ៍ល្អ គ្មានភស្តុតាង។</li>
+                </ul>
+              `
+            },
+            {
+              id: 3,
+              chapter: 'មេរៀនទី៣',
+              title: 'ហេតុអ្វីតម្រូវឱ្យរៀនមុខវិជ្ជាទស្សនវិជ្ជា',
+              subtitle: 'ន័យទាំង ៤ នៃទស្សនវិជ្ជា, លក្ខណៈវិទ្យាសាស្ត្រ, ផលប្រយោជន៍ ៧ យ៉ាង',
+              tags: ['ន័យទស្សនវិជ្ជា ៤', 'លក្ខណៈវិទ្យាសាស្ត្រ', 'ផលប្រយោជន៍ ៧', 'ទស្សនវិជ្ជាជីវិត'],
+              color: 'from-emerald-600 to-green-500',
+              fullContent: `
+                <h4 class="text-lg font-bold text-emerald-500 mb-2">១. ន័យ ៤ យ៉ាងនៃទស្សនវិជ្ជា</h4>
+                <ul class="list-disc pl-5 space-y-2 mb-4">
+                  <li><b>ន័យទី១៖</b> Philosophia (Philia = ស្រឡាញ់ + Sophia = គតិបណ្ឌិត/ចំណេះដឹង) = ការស្រឡាញ់គតិបណ្ឌិត។</li>
+                  <li><b>ន័យទី២៖</b> សិក្សាអំពី ១.ធម្មជាតិ ២.មនុស្ស-សង្គម ៣.គំនិត (ពុទ្ធិ តម្លៃ សីលញាណ) ដើម្បីបង្កើតទ្រឹស្តី រូបមន្ត និងសុភាសិត។</li>
+                  <li><b>ន័យទី៣៖</b> ទស្សនៈ (មតិ, យោបល់, គំនិត, ទ្រឹស្តី) + វិជ្ជា (ការសិក្សា, ការវិភាគ, ការគិតពិចារណា) = យកទស្សនៈមកធ្វើជាកម្មវត្ថុសិក្សា។</li>
+                  <li><b>ន័យទី៤៖</b> ការដោះស្រាយកម្រងចំណោទបញ្ហា ដោយវិភាគភាសាតាមបែបតក្កវិជ្ជា ដើម្បីបំលែងគំនិតទៅជាសកម្មភាពប្រតិបត្តិជាក់ស្តែង។</li>
+                </ul>
+
+                <h4 class="text-lg font-bold text-emerald-500 mb-2">២. លក្ខណៈវិទ្យាសាស្ត្រនៃទស្សនវិជ្ជា</h4>
+                <ol class="list-decimal pl-5 space-y-1 mb-4">
+                  <li>មានកម្មវត្ថុសិក្សាច្បាស់លាស់</li>
+                  <li>មានវិធីក្នុងការសិក្សាស្រាវជ្រាវ ពិសោធន៍ ពន្យល់បកស្រាយ មានលក្ខណៈជាប្រព័ន្ធ និងប្រើទឡីករណ៍</li>
+                  <li>មានការបង្កើតទ្រឹស្តី សុភាសិត រូបមន្ត បាតុភូតនានាថ្មីៗ</li>
+                  <li>ទ្រឹស្តី រូបមន្ត អាចត្រូវបានយកទៅអនុវត្តក្នុងវិស័យផ្សេងៗ</li>
+                </ol>
+
+                <h4 class="text-lg font-bold text-emerald-500 mb-2">៣. ផលប្រយោជន៍ ៧ យ៉ាងនៃទស្សនវិជ្ជា</h4>
+                <ul class="list-disc pl-5 space-y-1">
+                  <li>១. រីកចម្រើនចំណេះដឹង និងចំណេះធ្វើ បន្សល់ទុកជាបទពិសោធន៍</li>
+                  <li>២. ជាមូលដ្ឋានសម្រាប់ការបង្កើតទ្រឹស្តី ម៉ូដែលសេដ្ឋកិច្ច និងគាំទ្រនយោបាយ</li>
+                  <li>៣. ជាឧបករណ៍សម្រាប់វិភាគ និងដោះស្រាយអាថ៌កំបាំងក្នុងធម្មជាតិ និងសង្គម</li>
+                  <li>៤. អាចរំដោះខ្លួន និងយកចិត្តទុកដាក់ដល់អ្នកទន់ខ្សោយ</li>
+                  <li>៥. ផ្តល់ពុទ្ធិស៊ីជម្រៅ និងរៀនគិតស្វែងរកសច្ចៈភាពមុននឹងជឿ</li>
+                  <li>៦. ជាមគ្គុទេសក៍សម្រាប់បង្កើត «ទស្សនវិជ្ជាជីវិតផ្ទាល់ខ្លួន» ដឹកនាំជីវិតឱ្យមានន័យ</li>
+                  <li>៧. បំពាក់នូវក្រមសីលធម៌វិជ្ជាជីវៈ និងសុជីវធម៌ក្នុងការរស់នៅ</li>
+                </ul>
+              `
+            },
+            {
+              id: 4,
+              chapter: 'មេរៀនទី៤',
+              title: 'ភាសាវិទ្យា & និរុត្តិសាស្ត្រ',
+              subtitle: 'មែកធាងភាសាវិទ្យា, បាតុភូតវិទ្យា, បញ្ញត្តិ វិនិច្ឆ័យ វិចារ, សេដ្ឋកិច្ចនយោបាយ',
+              tags: ['Linguistics', 'Phonetics', 'Semantics', 'បញ្ញត្តិ', 'វិនិច្ឆ័យ', 'វិចារ'],
+              color: 'from-purple-600 to-indigo-600',
+              fullContent: `
+                <h4 class="text-lg font-bold text-purple-500 mb-2">១. មែកធាង ៨ នៃភាសាវិទ្យា (Linguistics)</h4>
+                <ul class="list-disc pl-5 space-y-1 mb-4">
+                  <li><b>១. សូរវិទ្យា (Phonetics)៖</b> សិក្សាអំពីសូរសំឡេងរបស់ពាក្យ</li>
+                  <li><b>២. សទ្ធវិទ្យា (Phonology)៖</b> សិក្សាអំពីប្រព័ន្ធសូរសំឡេង និងធាតុអរូបីនៃសូរ</li>
+                  <li><b>៣. ន័យវិទ្យា (Semantics)៖</b> សិក្សារូបរាងពាក្យដែលប្រែប្រួលតាមវចនៈ បុរិសៈ កាល និងមុខងារ</li>
+                  <li><b>៤. វចនាសព្ទវិទ្យា (Lexicology)៖</b> សិក្សាអំពីទុនពាក្យសព្ទទាំងអស់</li>
+                  <li><b>៥. សម្ព័ន្ធវិទ្យា (Syntax)៖</b> សិក្សារចនាសម្ព័ន្ធនៃកន្សោមពាក្យ ឃ្លា និងល្បះ</li>
+                  <li><b>៦. រចនាបថវិទ្យា (Stylistics)៖</b> សិក្សាការប្រើភាសាបង្ហាញគំនិត និងអារម្មណ៍</li>
+                  <li><b>៧. វេយ្យាករណ៍វិទ្យា (Grammar)៖</b> សិក្សាអំពីរបៀបរៀបប្រយោគ</li>
+                  <li><b>៨. គ្រាមភាសា (Dialect)៖</b> សិក្សាភាពខុសគ្នានៃភាសាតាមតំបន់ (ឧ. ស្វាយរៀង "ប្រឹង" = ឈប់)</li>
+                </ul>
+
+                <h4 class="text-lg font-bold text-purple-500 mb-2">២. គ្រឹះនៃភាសា៖ បញ្ញត្តិ, វិនិច្ឆ័យ, វិចារ</h4>
+                <p class="mb-1">• <b>បញ្ញត្តិ (Concept)៖</b> ឈ្មោះ/លេខកូដសម្គាល់វត្ថុ ឬបាតុភូត (បញ្ញត្តិរួម និង បញ្ញត្តិដោយឡែក)។</p>
+                <p class="mb-1">• <b>វិនិច្ឆ័យ (Judgment)៖</b> កើតពីការតភ្ជាប់បញ្ញត្តិ ២ ឬច្រើន បង្កើតជាឃ្លា/ប្រយោគ។</p>
+                <p class="mb-4">• <b>វិចារ (Reasoning)៖</b> កើតពីការតភ្ជាប់វិនិច្ឆ័យជាច្រើន បង្កើតជាកថាខណ្ឌ (មានអំណះអំណាង និងសន្និដ្ឋាន)។</p>
+
+                <h4 class="text-lg font-bold text-purple-500 mb-2">៣. ការប្រៀបធៀប៖ សេដ្ឋកិច្ចនយោបាយ vs នយោបាយសេដ្ឋកិច្ច</h4>
+                <p class="mb-2"><b>• នយោបាយសេដ្ឋកិច្ច (Economic Policy)៖</b> សំណុំគំនិត វិធី និងរូបមន្តដែលរដ្ឋាភិបាលកំណត់ដើម្បីបង្កើនកំណើនសេដ្ឋកិច្ច និងចំណូល (ឧ. យុទ្ធសាស្ត្រចតុកោណ/បញ្ចកោណ)។</p>
+                <p><b>• សេដ្ឋកិច្ចនយោបាយ (Political Economy)៖</b> វិទ្យាសាស្ត្រសង្គមដែលសិក្សាពីរបៀបដែលទ្រឹស្តីសេដ្ឋកិច្ច និងច្បាប់រដ្ឋាភិបាលជះឥទ្ធិពលដល់ប្រព័ន្ធសង្គម។</p>
+              `
+            },
+            {
+              id: 5,
+              chapter: 'មេរៀនទី៥',
+              title: 'អស្តិរូបវិជ្ជា (Metaphysics)',
+              subtitle: 'ភាវៈពិត vs ភាវៈក្នុងសតិ, ចលនារូបធាតុ, ក្រិត្យក្រមបរិមាណ-គុណភាព, ទ្រឹស្តីតម្លៃ',
+              tags: ['Metaphysics', 'ភាវៈពិត', 'អព្វោហារិក', 'តម្លៃអត្តនោម័តិ', 'តម្លៃបរានុម័តិ'],
+              color: 'from-teal-600 to-cyan-600',
+              fullContent: `
+                <h4 class="text-lg font-bold text-teal-500 mb-2">១. បញ្ញត្តិ Metaphysics</h4>
+                <p class="mb-3"><b>Metaphysics (Meta = នៅក្រៅ/ពីលើ + Physics = រូបធាតុ)</b> គឺជាការសិក្សាអំពីភាវៈធាតុផ្សំបង្កើតបានជាវត្ថុ (សារធាតុដើម) និងទម្រង់រូបធាតុទាំងអស់ដែលកកើត វិវត្ត រីកធំធាត់ ហើយស្លាប់ទៅវិញ។</p>
+                
+                <h4 class="text-lg font-bold text-teal-500 mb-2">២. ភាវៈ ២ បែប</h4>
+                <p class="mb-2">• <b>ភាវៈពិត (តថភាពបរានុម័ត)៖</b> អ្វីដែលមានពិតប្រាកដក្នុងធម្មជាតិ។</p>
+                <p class="mb-4">• <b>ភាវៈក្នុងសតិ៖</b> ការចម្លង/ឆ្លុះបញ្ចាំងភាវៈពិតចូលក្នុងខួរក្បាលមនុស្ស តាមរយៈឥន្ទ្រីយារម្មណ៍ និងប្រត្យក្សារម្មណ៍។</p>
+
+                <h4 class="text-lg font-bold text-teal-500 mb-2">៣. លក្ខខណ្ឌ vs ឱកាស vs ហេតុ</h4>
+                <ul class="list-disc pl-5 space-y-1 mb-4">
+                  <li><b>លក្ខខណ្ឌ៖</b> អ្វីដែលខ្វះមិនបានដើម្បីឱ្យអ្វីមួយមានអត្ថិភាព (ឧ. ពន្លឺជាលក្ខខណ្ឌគូររូប តែជាងគំនូរជាហេតុ)។</li>
+                  <li><b>ឱកាស៖</b> ស្ថានភាពជំរុញឱ្យហេតុមួយមានវត្តមានឡើង (ឧ. ថ្ងៃខួបកំណើត)។</li>
+                  <li><b>ហេតុ៖</b> គោលការណ៍ដែលមានឥទ្ធិពលផ្ទាល់លើការប្រែប្រួល ឬបង្កើតអ្វីមួយ។</li>
+                </ul>
+
+                <h4 class="text-lg font-bold text-teal-500 mb-2">៤. ទ្រឹស្តីតម្លៃ ៣ បែប (Axiology)</h4>
+                <ul class="list-disc pl-5 space-y-2">
+                  <li><b>១- ទ្រឹស្តីអត្តនោម័តិ (Subjective Theory)៖</b> តម្លៃអាស្រ័យលើមនុស្សជាអ្នកកំណត់ (ស្រឡាញ់ មានតម្លៃ; ស្អប់ គ្មានតម្លៃ)។</li>
+                  <li><b>២- ទ្រឹស្តីបរានុម័តិ (Objective Theory)៖</b> តម្លៃស្ថិតនៅក្នុងខ្លួនវត្ថុស្រាប់ (ឧ. មាសមានតម្លៃក្នុងខ្លួនវា)។</li>
+                  <li><b>៣- ទ្រឹស្តីទំនាក់ទំនងនិយម (Relational Theory)៖</b> វាយតម្លៃឈរលើធាតុ ៤ (បទដ្ឋានតម្លៃ, ប្រធានវិស័យភាព, វត្ថុវិស័យភាព, កាល និង លំហ)។</li>
+                </ul>
+              `
+            },
+            {
+              id: 6,
+              chapter: 'មេរៀនទី៦',
+              title: 'តក្កវិជ្ជា (Logic & 13 Methods)',
+              subtitle: 'ច្បាប់នៃការគិត, ៧ ជំហាននៃការគិត, វិធីតក្កវិជ្ជាទាំង ១៣ យ៉ាង',
+              tags: ['Logic', 'ជំហាន ៧', 'វិធីតក្ក ១៣', 'Thesis-Antithesis', 'សច្ចភាព'],
+              color: 'from-indigo-600 to-blue-600',
+              fullContent: `
+                <h4 class="text-lg font-bold text-indigo-500 mb-2">១. តើអ្វីជាតក្កវិជ្ជា?</h4>
+                <p class="mb-3">តក្កវិជ្ជា គឺជាការសិក្សាអំពីច្បាប់នៃការគិត បង្កើតច្បាប់ក្នុងការគិត រូបមន្តនៃការគិត និងសិល្បៈនៃការគិត ដើម្បីធ្វើវិចារត្រឹមត្រូវ ឬរកហេតុផលឱ្យបានត្រឹមត្រូវ។</p>
+
+                <h4 class="text-lg font-bold text-indigo-500 mb-2">២. ជំហាននៃការគិត ៧ ជំហាន</h4>
+                <ol class="list-decimal pl-5 space-y-1 mb-4 text-xs sm:text-sm">
+                  <li>ចម្ងល់/សង្ស័យ/ចោទសំណួរ (កំណត់ប្រធានបទ)</li>
+                  <li>ប្រមូលទិន្នន័យ (ឯកសារ ភស្តុតាង បទសម្ភាសន៍)</li>
+                  <li>រៀបចំទិន្នន័យ វិភាគ ប្រៀបធៀប និងវាយតម្លៃ</li>
+                  <li>ធ្វើបុរេសន្មត់ (លើកសម្មតិកម្ម)</li>
+                  <li>យកសម្មតិកម្មធ្វើការសាកល្បង ឬពិសោធន៍</li>
+                  <li>រិះគន់របកគំហើញសច្ចៈភាព ដើម្បីបញ្ជាក់ប្រាកដភាព</li>
+                  <li>យកចម្លើយសច្ចភាព ទៅបំលែងជាការប្រតិបត្តិជាក់ស្តែង</li>
+                </ol>
+
+                <h4 class="text-lg font-bold text-indigo-500 mb-2">៣. សង្ខេបវិធីតក្កវិជ្ជាទាំង ១៣ យ៉ាង</h4>
+                <p class="text-xs text-slate-600 dark:text-slate-300">
+                  (សូមចូលទៅកាន់ Tab <b>«វិធីតក្កវិជ្ជាទាំង ១៣»</b> ដើម្បីមើលការបកស្រាយ និងឧទាហរណ៍លម្អិតនៃវិធីនីមួយៗ)។
+                </p>
+              `
+            },
+            {
+              id: 7,
+              chapter: 'មេរៀនទី៧',
+              title: 'សោភណ្ឌវិជ្ជា (Aesthetics)',
+              subtitle: 'សិល្បៈ និងសោភ័ណ, លក្ខណៈ ៣ នៃសិល្បៈ, တម្លៃបរានុម័តិ & អត្តនោម័តិ',
+              tags: ['Aesthetics', 'Imitative', 'Expression', 'Formal', 'Hume', 'Kant'],
+              color: 'from-pink-600 to-rose-500',
+              fullContent: `
+                <h4 class="text-lg font-bold text-pink-500 mb-2">១. សិល្បៈ និងសោភ័ណ</h4>
+                <p class="mb-3"><b>សោភ័ណ (Aesthetics)</b> គឺភាពល្អ ភាពស្អាត ភាពត្រកាល ឬសិរីសួស្តី។ សិល្បៈត្រូវបានចែកជា ៤ ទម្រង់៖ ទស្សនសិល្បៈ (Visual Arts), សិល្បៈសម្តែង (Performing Arts), អក្សរសិល្បៈ (Literary Arts), និង សិល្បៈអនុវត្ត (Applied Arts)។</p>
+
+                <h4 class="text-lg font-bold text-pink-500 mb-2">២. លក្ខណៈ ៣ យ៉ាងនៃសិល្បៈ</h4>
+                <ul class="list-disc pl-5 space-y-2 mb-4">
+                  <li><b>១- ការធ្វើត្រាប់ (Imitative Theory)៖</b> សិល្បៈជាកញ្ចក់ឆ្លុះបញ្ចាំងតថភាពធម្មជាតិ និងសង្គម (ឧ. រឿងទុំទាវ, គំនូរទេសភាព)។</li>
+                  <li><b>២- ការសម្តែង (Expression Theory)៖</b> ការបញ្ជូនទម្រង់គំនិត និងមនោសញ្ចេតនារបស់សិល្បករទៅកាន់ទស្សនិកជន។</li>
+                  <li><b>៣- តម្លៃគំនិត (Formal Theory)៖</b> សិល្បៈបង្កប់នូវឧត្តមគតិ ទស្សនវិស័យ និងការអប់រំ (Hegel ថា សិល្បៈល្អគឺជួយឱ្យរីកចម្រើនឧត្តមគតិ)។</li>
+                </ul>
+
+                <h4 class="text-lg font-bold text-pink-500 mb-2">៣. តួនាទីសិល្បៈក្នុងសង្គម</h4>
+                <p class="text-xs sm:text-sm">
+                  សិល្បៈគឺជា <b>«ព្រលឹងនៃវប្បធម៌»</b> និងជា <b>«អាវុធមុខពីរ»</b> ដែលអាចធ្វើឱ្យសង្គមចុះសម្រុង រីកចម្រើន ឬអាចធ្វើឱ្យសង្គមបែកបាក់ អន្តរាយ ប្រសិនបើប្រើប្រាស់ក្នុងផ្លូវខុស។
+                </p>
+              `
+            },
+            {
+              id: 8,
+              chapter: 'មេរៀនទី៨',
+              title: 'ពុទ្ធិវិជ្ជា (Epistemology)',
+              subtitle: 'ឥន្ទ្រីយារម្មណ៍, ប្រត្យក្សារម្មណ៍, ញាណ-អញាណ, ទ្រឹស្តីពុទ្ធិរបស់សូក្រាត & ហ្សេណូ',
+              tags: ['Epistemology', 'ឥន្ទ្រីយារម្មណ៍', 'ប្រត្យក្សារម្មណ៍', 'ញាណ', 'ហ្សេណូ'],
+              color: 'from-purple-600 to-pink-500',
+              fullContent: `
+                <h4 class="text-lg font-bold text-purple-500 mb-2">១. ពុទ្ធិវិជ្ជា និងដំណាក់កាលញាណ</h4>
+                <p class="mb-3">Epistemology គឺជាទ្រឹស្តីពុទ្ធិ។ ដំណើរការទទួលពុទ្ធិ៖ <b>ឥន្ទ្រីយារម្មណ៍ (វិញ្ញាណទាំង ៥) ➔ ប្រត្យក្សារម្មណ៍ (ខួរក្បាលបកស្រាយ) ➔ ការចងចាំ (អញាណ) ➔ ញាណ (ការដឹង យល់ ស្គាល់ ចេះ)</b>។</p>
+
+                <h4 class="text-lg font-bold text-purple-500 mb-2">២. ប្រភេទទាំង ៤ នៃពុទ្ធិ</h4>
+                <ul class="list-disc pl-5 space-y-1 mb-4">
+                  <li>១. ឥន្ទ្រីយពុទ្ធិ (ពុទ្ធិបានពីពិសោធន៍)</li>
+                  <li>២. វិចារណញ្ញាណពុទ្ធិ</li>
+                  <li>៣. អព្ភន្តរញាណពុទ្ធិ (ការចងចាំ)</li>
+                  <li>៤. ពុទ្ធិឧយោគ/ពុទ្ធិស័យម្ភូត (ត្រាស់ដឹង/កើតឯងពីធម្មជាតិ)</li>
+                </ul>
+
+                <h4 class="text-lg font-bold text-purple-500 mb-2">៣. ពុទ្ធិតាមបែប ហ្សេណូ (Zeno)</h4>
+                <p class="mb-1">១. ដឹង = បាតដៃម្ខាងលា</p>
+                <p class="mb-1">២. ពិចារណា/វិភាគ = បាតដៃក្ដោបចូលវិញ</p>
+                <p class="mb-1">៣. យល់/ចេះ (ពុទ្ធិ) = កណ្តាប់ដៃក្តាប់ណែន</p>
+                <p class="mb-4">៤. ជំនឿ/ឧត្តមគតិ = បាតដៃម្ខាងទៀតក្តោបពីលើកណ្តាប់ដៃ</p>
+              `
+            },
+            {
+              id: 9,
+              chapter: 'មេរៀនទី៩',
+              title: 'សីលវិជ្ជា (Ethics)',
+              subtitle: 'សីលញាណ vs ចិត្តញាណ, ដើមកំណើតសីលញាណ, ទស្សនៈ ៤ ក្នុងការវិនិច្ឆ័យអំពើ',
+              tags: ['សីលញាណ', 'ចិត្តញាណ', 'Immanuel Kant', 'Hedonism', 'Stoicism'],
+              color: 'from-amber-600 to-yellow-500',
+              fullContent: `
+                <h4 class="text-lg font-bold text-amber-500 mb-2">១. សីលញាណ vs ចិត្តញាណ</h4>
+                <p class="mb-2">• <b>ចិត្តញាណ៖</b> ជាអ្នកប្រាប់ឱ្យដឹងពីអ្វីជាការពិតជាក់ស្តែង វិនិច្ឆ័យតាមតថភាព។</p>
+                <p class="mb-4">• <b>សីលញាណ (Moral Conscience)៖</b> ប្រៀបដូចសំឡេងក្នុងខ្លួន មានមុខងារសង្កេត ពិនិត្យ វិនិច្ឆ័យ ណែនាំ ដាក់ទណ្ឌកម្ម និងឱ្យរង្វាន់ចំពោះអំពើរបស់មនុស្ស។</p>
+
+                <h4 class="text-lg font-bold text-amber-500 mb-2">២. ទស្សនៈ ៤ ក្នុងការវិនិច្ឆ័យអំពើ ( moral Judgment)</h4>
+                <ul class="list-disc pl-5 space-y-2 mb-4">
+                  <li><b>ទស្សនៈទី១ (Kant)៖</b> អំពើល្អលុះត្រាតែហេតុផលជំរុញពីក្នុង (សុឆន្ទៈ) ល្អ។</li>
+                  <li><b>ទស្សនៈទី២៖</b> អំពើល្អលុះត្រាតែប្រព្រឹត្តតាមមធ្យោបាយស្របច្បាប់ (មិនប្រើមធ្យោបាយអាក្រក់ដើម្បីគោលដៅល្អទេ)។</li>
+                  <li><b>ទស្សនៈទី៣ (Bentham/Mill)៖</b> ផលប្រយោជន៍និយម - អំពើល្អលុះត្រាតែវិបាករបស់វាផ្តល់ផលប្រយោជន៍ និងសុភមង្គលដល់សង្គម។</li>
+                  <li><b>ទស្សនៈទី៤ (ទំនាក់ទំនងនិយម)៖</b> វិនិច្ឆ័យយោលទៅតាមកាលៈទេសៈ ទីកន្លែង និងសម័យកាល (លំហ និង កាល)។</li>
+                </ul>
+              `
+            },
+            {
+              id: 10,
+              chapter: 'មេរៀនទី១០',
+              title: 'ចំណេះដឹងទូទៅអំពីពុទ្ធិ',
+              subtitle: ' Epistemology overview, និយមន័យតាមអ្នកប្រាជ្ញ, ពុទ្ធិ ៣ កម្រិត',
+              tags: ['Epistemology', 'Plato', 'Aquinas', 'Descartes', 'Wittgenstein'],
+              color: 'from-blue-700 to-indigo-800',
+              fullContent: `
+                <h4 class="text-lg font-bold text-blue-400 mb-2">១. ទ្រឹស្តីពុទ្ធិ តាមទស្សនវិទូសំខាន់ៗ</h4>
+                <ul class="list-disc pl-5 space-y-1 mb-4">
+                  <li><b>Plato:</b> ពុទ្ធិ គឺជាជំនឿត្រឹមត្រូវ រួមនឹងការពន្យល់ដែលមានហេតុផល។</li>
+                  <li><b>Thomas Aquinas:</b> ពុទ្ធិ គឺជាតថភាពសកម្មនៃទំនាក់ទំនងរវាងប្រធានវិស័យ និងវត្ថុវិស័យ។</li>
+                  <li><b>Descartes:</b> ពុទ្ធិ គឺជាការយល់ដឹងជាក់ច្បាស់មិនអាចសង្ស័យបាន។</li>
+                  <li><b>Ludwig Wittgenstein:</b> ពុទ្ធិ គឺជាចំណេះជាក់ស្តែងក្នុងបរិបទសង្គមជាក់លាក់។</li>
+                </ul>
+
+                <h4 class="text-lg font-bold text-blue-400 mb-2">២. ការបែងចែកពុទ្ធិជា ៣ កម្រិត</h4>
+                <ol class="list-decimal pl-5 space-y-1">
+                  <li><b>ពុទ្ធិសាមញ្ញ (Common Sense)៖</b> ពុទ្ធិធម្មជាតិ តាមសភាវគតិ និងមតិទូទៅ។</li>
+                  <li><b>ពុទ្ធិវិទ្យាសាស្ត្រ (Scientific Knowledge)៖</b> កើតពីការពិសោធន៍ និងទិន្នន័យ។</li>
+                  <li><b>ពុទ្ធិទស្សនវិជ្ជា (Philosophical Knowledge)៖</b> ឆ្លងកាត់ការវិភាគ សំយោគ និងវិចារណញ្ញាណស៊ីជម្រៅ។</li>
+                </ol>
+              `
+            },
+            {
+              id: 11,
+              chapter: 'មេរៀនទី១១',
+              title: 'ទ្រឹស្តីពុទ្ធិរបស់ព្រះពុទ្ធ',
+              subtitle: 'ពុទ្ធប្រវត្តិ, វិជ្ជា ៣, ចតុរារិយសច្ចៈ, កុសលកម្ម ១០, បដិច្ចសមុប្បាទ',
+              tags: ['ព្រះពុទ្ធ', 'ចតុរារិយសច្ចៈ', 'កុសលកម្ម ១០', 'បដិច្ចសមុប្បាទ'],
+              color: 'from-amber-500 to-orange-600',
+              fullContent: `
+                <h4 class="text-lg font-bold text-amber-500 mb-2">១. វិជ្ជា ៣ យ៉ាង ឬប្រាជ្ញាញាណរបស់ព្រះពុទ្ធ</h4>
+                <ol class="list-decimal pl-5 space-y-1 mb-4">
+                  <li><b>បុព្វេនិវាសានុស្សតិញ្ញាណ៖</b> សមត្ថភាពដឹងពីប្រវត្តិជាតិអតីតកាលផ្ទាល់ខ្លួន (លំនឹក)។</li>
+                  <li><b>ចុតូបបាតញ្ញាណ៖</b> ការឈ្វេងយល់ពីការស្លាប់ និងការកើតនៃភាវៈទាំងឡាយ តាមច្បាប់កម្មផល។</li>
+                  <li><b>សព្វញ្ញុតញ្ញាណ៖</b> ពុទ្ធិត្រាស់ដឹងនូវសច្ចធម៌ និងអរិយសច្ចទាំង ៤ យ៉ាងធ្លុះជ្រៅ។</li>
+                </ol>
+
+                <h4 class="text-lg font-bold text-amber-500 mb-2">២. ចតុរារិយសច្ចៈ (ការពិតដ៏ប្រសើរ ៤ យ៉ាង)</h4>
+                <p class="mb-1">១- <b>ទុក្ខអរិយសច្ចៈ៖</b> សេចក្តីទុក្ខជារបស់ពិតកើតមានដល់សត្វលោក។</p>
+                <p class="mb-1">២- <b>សមុទ្ទយអរិយសច្ចៈ៖</b> តណ្ហា (សេចក្តីប្រាថ្នា) ជាប្រភពបង្កើតទុក្ខ។</p>
+                <p class="mb-1">៣- <b>និរោធអរិយសច្ចៈ៖</b> ការរំលត់ទុក្ខ (ព្រះនិព្វាន)។</p>
+
+                <h4 class="text-lg font-bold text-amber-500 mb-2">៣. កុសលកម្មបទ ១០ ប្រការ</h4>
+                <p class="mb-1">• <b>កាយកម្ម ៣៖</b> វៀចាកការសម្លាប់, វៀចាកការលួច, វៀចាកការខុសក្នុងកាម។</p>
+                <p class="mb-1">• <b>វចីកម្ម ៤៖</b> វៀចាកការភូតភរ, វៀចាកពាក្យញុះញង់, វៀចាកពាក្យទ្រគោះ, វៀចាកពាក្យឥតប្រយោជន៍។</p>
+                <p class="mb-4">• <b>មនោកម្ម ៣៖</b> អនភិជ្ឈា (មិនរមិលគុណ/មិនលោភ), អព្យាបាទ (មិនចងពៀរ), សម្មាទិដ្ឋិ (យល់ត្រូវ)។</p>
+
+                <h4 class="text-lg font-bold text-amber-500 mb-2">៤. បដិច្ចសមុប្បាទធម៌</h4>
+                <p class="text-xs sm:text-sm">
+                  ធម៌អាស្រ័យផលគ្នា៖ <i>អវិជ្ជា ➔ សង្ខារ ➔ វិញ្ញាណ ➔ នាមរូប ➔ អាយតនៈ ➔ សម្ផស្ស ➔ វេទនា ➔ តណ្ហា ➔ ឧបាទាន ➔ ភព ➔ ជាតិ ➔ ជរាមរណៈ (ទុក្ខ)</i>។
+                </p>
+              `
+            },
+            {
+              id: 12,
+              chapter: 'មេរៀនទី១២',
+              title: 'ទ្រឹស្តីពុទ្ធិរបស់លោក ចន ឡក',
+              subtitle: ' John Locke, ពិសោធន៍និយម, Tabula Rasa (ក្រដាសស), គំនិតសាមញ្ញ & សាំញ៉ាំ',
+              tags: ['John Locke', 'Tabula Rasa', 'Empiricism', 'គំនិតសាមញ្ញ', 'គំនិតសាំញ៉ាំ'],
+              color: 'from-cyan-600 to-blue-700',
+              fullContent: `
+                <h4 class="text-lg font-bold text-cyan-500 mb-2">១. ទ្រឹស្តីពិសោធន៍និយម (Empiricism) & Tabula Rasa</h4>
+                <p class="mb-3">លោក John Locke (បិតានៃទស្សនវិជ្ជាសេរី) អះអាងថា <b>«ខួរក្បាលមនុស្សពេលកើតមកគឺទទេស្អាត ប្រៀបដូចជាក្រដាសស (Tabula Rasa)»</b> គ្មានគំនិត ឬពុទ្ធិពីកំណើតឡើយ។ រាល់គំនិត និងចំណេះដឹងទាំងអស់ គឺបានមកពី <b>ឥន្ទ្រីយារម្មណ៍ និងបទពិសោធន៍</b>។</p>
+
+                <h4 class="text-lg font-bold text-cyan-500 mb-2">២. គំនិតសាមញ្ញ vs គំនិតសាំញ៉ាំ</h4>
+                <p class="mb-2"><b>• គំនិតសាមញ្ញ (Simple Ideas)៖</b> ទិន្នន័យឆៅបានមកពីឥន្ទ្រីយារម្មណ៍ផ្ទាល់ (ឧ. ការដឹងពណ៌ ទំហំ រសជាតិ)។</p>
+                <p class="mb-4"><b>• គំនិតសាំញ៉ាំ (Complex Ideas)៖</b> កើតចេញពីខួរក្បាលយកគំនិតសាមញ្ញជាច្រើនមកប្រមូលផ្តុំ វិភាគ និងបំបែក (ឧ. ញ៉ាំស្ករ ➔ ដឹងថាផ្អែម ពណ៌ស ដុំតូចៗ)។</p>
+
+                <h4 class="text-lg font-bold text-cyan-500 mb-2">៣. កម្រិតនៃពុទ្ធិ</h4>
+                <p class="text-xs sm:text-sm">
+                  មាន <i>ពុទ្ធិអព្ភន្តរញាណ</i> (ដឹងភ្លាមៗ ឧ. ក្តៅព្រះអាទិត្យ) និង <i>ពុទ្ធិទស្សទាន/វិចារ</i> (កើតពេលចិត្តស្វែងយល់ប្រៀបធៀបគំនិត)។
+                </p>
+              `
+            },
+            {
+              id: 13,
+              chapter: 'មេរៀនទី១៣',
+              title: 'ទ្រឹស្តីពុទ្ធិ លោក នីឈើ',
+              subtitle: ' Friedrich Nietzsche, ឆន្ទៈដើម្បីអំណាច, ប្រតិបត្តិនិយម, អច្ឆរិយបុគ្គល (Übermensch)',
+              tags: ['Nietzsche', 'Will to Power', 'Übermensch', 'Pragmatism', 'Goethe'],
+              color: 'from-red-600 to-rose-700',
+              fullContent: `
+                <h4 class="text-lg font-bold text-rose-500 mb-2">១. ឆន្ទៈដើម្បីអំណាច (Will to Power)</h4>
+                <p class="mb-3"> Friedrich Nietzsche យល់ថា គំនិត និងប្រព័ន្ធទស្សនវិជ្ជាទាំងអស់ គឺជាការបង្ហាញនូវ <b>«ឆន្ទៈដើម្បីអំណាច»</b>។ លោកមើលឃើញទស្សនវិជ្ជារបស់លោកជាបទពិសោធន៍ប្រកបដោយសច្ចភាព។</p>
+
+                <h4 class="text-lg font-bold text-rose-500 mb-2">២. ប្រតិបត្តិនិយម (Pragmatism)</h4>
+                <p class="mb-4">សច្ចភាពគឺជាអ្វីដែលមានប្រសិទ្ធភាព និងមានផលប្រយោជន៍។ យោបល់មួយពិត នៅពេលវា <b>«មានផលប្រយោជន៍ និងមានប្រសិទ្ធភាព»</b> ក្នុងការដោះស្រាយបញ្ហា។</p>
+
+                <h4 class="text-lg font-bold text-rose-500 mb-2">៣. អច្ឆរិយបុគ្គល (Übermensch) & លោក Goethe</h4>
+                <p class="mb-2">• <b>អច្ឆរិយបុគ្គល (Overman/Übermensch)៖</b> គឺជាគោលបំណងនៃផែនដី។ មនុស្សត្រូវតែជំនះ និងអភិវឌ្ឍខ្លួនឯង ជៀសវាងភាពទន់ខ្សោយ។</p>
+                <p class="text-xs sm:text-sm">
+                  • <b>លោក Goethe៖</b> ជាមនុស្សដែលជិតសិ្នទ្ធបំផុតនឹងឧត្តមគតិអច្ឆរិយបុគ្គល ព្រោះគាត់អប់រំខ្លួនឯងចំពោះភាពទាំងមូល ជំនះកំហឹង និងនិយាយ «យល់ស្របជាមួយជីវិត»។
+                </p>
+              `
+            },
+            {
+              id: 14,
+              chapter: 'មេរៀនទី១៤',
+              title: 'សីលធម៌របស់ទស្សនវិទូក្នុងការអប់រំ',
+              subtitle: 'ប្រភពសីលធម៌, វិធីសាស្ត្រ ៤ របស់សូក្រាត, ព្រលឹង ៣ របស់ប្លាតុង, គុណធម៌អារីស្តូត & អាតារ៉ាក់ស៊ី',
+              tags: ['សូក្រាត', 'ប្លាតុង', 'អារីស្តូត', 'អេពីគួរ', 'អាតារ៉ាក់ស៊ី'],
+              color: 'from-amber-600 to-rose-600',
+              fullContent: `
+                <h4 class="text-lg font-bold text-amber-500 mb-2">១. ក្រមសីលធម៌ ៤ យ៉ាងក្នុងជីវិតប្រចាំថ្ងៃ</h4>
+                <ul class="list-disc pl-5 space-y-1 mb-4">
+                  <li>១. <b>សីលធម៌ផ្ទាល់ខ្លួន៖</b> ដឹងខុសត្រូវ តាំងខ្លួនជាម្ចាស់ចិត្ត និយាយត្រឹមត្រូវ។</li>
+                  <li>២. <b>សីលធម៌ក្នុងគ្រួសារ៖</b> ឪពុកម្តាយស្រឡាញ់កូនស្មើៗគ្នា កូនស្តាប់ដំបូន្មាន និងតបគុណ។</li>
+                  <li>៣. <b>សីលធម៌ក្នុងវិជ្ជាជីវៈ៖</b> មានមនសិការការងារ សុចរិត មិនកេងប្រវ័ញ្ច។</li>
+                  <li>៤. <b>សីលធម៌សង្គម៖</b> សាមគ្គីភាព មិនរើសអើង គោរពតម្លៃអ្នកដទៃ។</li>
+                </ul>
+
+                <h4 class="text-lg font-bold text-amber-500 mb-2">២. ទ្រឹស្តីសីលធម៌របស់ទស្សនវិទូធំៗ</h4>
+                <ul class="list-disc pl-5 space-y-2 mb-4">
+                  <li><b>សូក្រាត (Socrates)៖</b> សីលធម៌ = បញ្ញា/ចំណេះ។ ប្រើវិធី ៤ យ៉ាង៖ <i>វិធីចំអក, វិធីសម្រាល, វិធីអនុមានរួម, និង វិធីនិយមន័យ</i>។</li>
+                  <li><b>ប្លាតុង (Plato)៖</b> ព្រលឹង ៣ បែប៖ <i>វិចារណញ្ញាណ (អ្នកបររាជរថ), ឆន្ទៈ (សេះស្គាល់គំនិត), និង តណ្ហា (សេះឥតស្គាល់សច្ចភាព)</i> ផ្សំគ្នាកើតជា <b>យុត្តិធម៌</b>។</li>
+                  <li><b>អារីស្តូត (Aristotle)៖</b> ចែកគុណធម៌ជា ២៖ <i>បញ្ញាគុណធម៌ (កើតពីការអប់រំ)</i> និង <i>សីលគុណធម៌ (កើតពីទម្លាប់)</i> ដោយប្រកាន់យក <b>ផ្លូវកណ្តាល (Golden Mean)</b>។</li>
+                  <li><b>អេពីគួរ (Epicure)៖</b> សុភមង្គលធំបំផុតគឺ <b>«អាតារ៉ាក់ស៊ី» (Ataraxia)</b> សេចក្តីស្ងប់ស្ងាត់នៃព្រលឹង/គ្មានកង្វល់។</li>
+                </ul>
+              `
+            },
+            {
+              id: 15,
+              chapter: 'មេរៀនទី១៥',
+              title: 'ស្ថានភាពនៃការគិតរបស់យុវជនកម្ពុជា',
+              subtitle: 'ការគិតត្រូវ (អដ្ឋង្គិកមគ្គ), ការគិតខុស, គោលបំណង & ផលប៉ះពាល់នៃបណ្តាញសង្គម',
+              tags: ['អដ្ឋង្គិកមគ្គ', 'ការគិតត្រូវ', 'បណ្តាញសង្គម', 'Deep Thinking'],
+              color: 'from-rose-600 to-indigo-600',
+              fullContent: `
+                <h4 class="text-lg font-bold text-rose-500 mb-2">១. ការគិតត្រូវ vs ការគិតខុស</h4>
+                <p class="mb-2">• <b>ការគិតត្រូវ៖</b> ប្រកាន់យក <i>អដ្ឋង្គិកមគ្គ (ផ្លូវ ៨ យ៉ាង)</i> មាន៖ សម្មាទិដ្ឋិ (ទស្សនៈត្រូវ), សម្មាសង្កប្បៈ (ការគិតត្រូវ), សម្មាវាចា (និយាយត្រូវ), សម្មាកម្មន្តៈ (ធ្វើអំពើត្រូវ), សម្មាអាជីវៈ (ចិញ្ចឹមជីវិតត្រូវ), សម្មាវាយាម (ព្យាយាមត្រូវ), សម្មាសតិ (សតិត្រូវ), សម្មាសមាធិ (តាំងចិត្តត្រូវ)។</p>
+                <p class="mb-4">• <b>ការគិតខុស៖</b> បណ្តាលមកពី កត្តា ៥ យ៉ាង (សន្មតទុកមុន, ជំនឿខ្វះវិទ្យាសាស្ត្រ, យល់មិនច្បាស់ពីបញ្ញត្តិ, ភាសាខុសគ្នា, យល់ខុសពីសច្ចភាព)។</p>
+
+                <h4 class="text-lg font-bold text-rose-500 mb-2">២. ផលប៉ះពាល់ ៤ យ៉ាងនៃ Social Media លើការគិតរបស់យុវជន</h4>
+                <ol class="list-decimal pl-5 space-y-2">
+                  <li><b>ការកម្សាន្តជ្រុល៖</b> ញៀនបណ្តាញសង្គម ដោយគ្មានគោលដៅច្បាស់លាស់។</li>
+                  <li><b>សុខភាពផ្លូវចិត្តទន់ខ្សោយ៖</b> រងសម្ពាធផ្លូវចិត្ត និងជួបមាតិកាគ្មានមូលដ្ឋាន។</li>
+                  <li><b>គ្មានគោលដៅជីវិតច្បាស់លាស់៖</b> ត្រូវបណ្តាញសង្គមប្លន់យកពេលវេលា។</li>
+                  <li><b>បាត់បង់ការគិតស៊ីជម្រៅ (Deep Thinking)៖</b> គិតងាយៗ គ្មានមូលដ្ឋានការអាន ឬពិសោធន៍។</li>
+                </ol>
+              `
+            }
+          ],
+
+          // Flashcards Data Across 15 Lessons
+          flashcards: [
+            { term: 'តក្កវិជ្ជា', english: 'Logic', category: 'standards', categoryLabel: 'តក្កវិជ្ជា', definition: 'វិទ្យាសាស្ត្រ ឬគោលការណ៍ដឹកនាំការគិត និយាយ និងសរសេរឱ្យមានភាពសមហេតុសមផល និងត្រឹមត្រូវ។', flipped: false },
+            { term: 'អស្តិរូបវិជ្ជា', english: 'Metaphysics', category: 'metaphysics', categoryLabel: 'អស្តិរូបវិជ្ជា', definition: 'ការសិក្សាអំពីភាវៈ សារធាតុដើម ព្រមទាំងទម្រង់រូបធាតុ និងអរូបធាតុទាំងអស់ក្នុងចក្រវាឡ (Meta + Physics)។', flipped: false },
+            { term: 'ពុទ្ធិវិជ្ជា', english: 'Epistemology', category: 'epistemology', categoryLabel: 'ពុទ្ធិវិជ្ជា', definition: 'ទ្រឹស្តីស្តីពីប្រភព ធម្មជាតិ ដែនកំណត់ និងសច្ចភាពនៃចំណេះដឹងរបស់មនុស្ស (Episteme + Logos)។', flipped: false },
+            { term: 'សីលវិជ្ជា', english: 'Ethics', category: 'ethics', categoryLabel: 'សីលវិជ្ជា', definition: 'ការសិក្សាអំពីតម្លៃសីលធម៌ គុណធម៌ ការបែងចែកអំពើល្អ និងអំពើអាក្រក់។', flipped: false },
+            { term: 'សោភណ្ឌវិជ្ជា', english: 'Aesthetics', category: 'aesthetics', categoryLabel: 'សោភណ្ឌវិជ្ជា', definition: 'ការសិក្សាអំពីភាពស្រស់ស្អាត សោភណភាព និងសិល្បៈ ទាំងក្នុងធម្មជាតិ និងស្នាដៃមនុស្ស។', flipped: false },
+            { term: 'ភាសាវិទ្យា', english: 'Linguistics', category: 'linguistics', categoryLabel: 'ភាសាវិទ្យា', definition: 'វិទ្យាសាស្ត្រដែលសិក្សាអំពីប្រព័ន្ធភាសាមនុស្ស សំឡេង វេយ្យាករណ៍ និងការប្រើប្រាស់។', flipped: false },
+            { term: 'អាតារ៉ាក់ស៊ី', english: 'Ataraxia', category: 'ethics', categoryLabel: 'សីលវិជ្ជា', definition: 'តាមទស្សនវិទូ អេពីគួរ គឺជាសេចក្តីស្ងប់ស្ងាត់នៃព្រលឹង ការផុតទុក្ខព្រួយ ឬគ្មានកង្វល់ក្នុងចិត្ត។', flipped: false },
+            { term: 'Tabula Rasa', english: 'Blank Slate', category: 'epistemology', categoryLabel: 'ពុទ្ធិវិជ្ជា', definition: 'ទ្រឹស្តីលោក ចន ឡក (John Locke) ថាខួរក្បាលមនុស្សកើតមកទទេស្អាតដូចក្រដាសស គ្មានគំនិតពីកំណើតឡើយ។', flipped: false },
+            { term: 'អច្ឆរិយបុគ្គល', english: 'Übermensch', category: 'epistemology', categoryLabel: 'ពុទ្ធិវិជ្ជា', definition: 'តាមលោក នីឈើ (Nietzsche) គឺជាមនុស្សឧត្តមគតិដែលជំនះដែនកំណត់របស់ខ្លួនឯង និងជាគោលបំណងនៃផែនដី។', flipped: false },
+            { term: 'ប្រត្យក្សារម្មណ៍', english: 'Perception', category: 'epistemology', categoryLabel: 'ពុទ្ធិវិជ្ជា', definition: 'ដំណើរការផ្លូវចិត្តដែលខួរក្បាលទទួល បកស្រាយ និងផ្តល់អត្ថន័យដល់សញ្ញាពីឥន្ទ្រីយារម្មណ៍ទាំង ៥។', flipped: false },
+            { term: 'តម្លៃអត្តនោម័តិ', english: 'Subjective Value', category: 'metaphysics', categoryLabel: 'អស្តិរូបវិជ្ជា', definition: 'ទស្សនៈដែលអះអាងថាតម្លៃអាស្រ័យលើមនុស្សជាអ្នកកំណត់ តាមចំណង់ និងអារម្មណ៍ មិនមែនជាសកលទេ។', flipped: false },
+            { term: 'តម្លៃបរានុម័តិ', english: 'Objective Value', category: 'metaphysics', categoryLabel: 'អស្តិរូបវិជ្ជា', definition: 'ទស្សនៈដែលអះអាងថាតម្លៃមាននៅក្នុងខ្លួនវត្ថុស្រាប់ (ឧ. មាស) មិនចំណុះលើចិត្តនរណាម្នាក់ឡើយ។', flipped: false }
+          ],
+
+          // Master Dictionary Terms Across All 15 Lessons
+          masterTerms: [
+            { khmer: 'សោភណ្ឌវិជ្ជា / សិល្ប៍វិជ្ជា', english: 'Aesthetics', tag: 'មេរៀនទី៧', meaning: 'ការសិក្សាអំពីតម្លៃនៃភាពស្រស់ស្អាត សិល្បៈ និងសោភណភាព។' },
+            { khmer: 'ភាសាវិជ្ជា & និរុត្តិសាស្ត្រ', english: 'Linguistics & Philology', tag: 'មេរៀនទី៤', meaning: 'ការសិក្សាអំពីប្រព័ន្ធភាសា វេយ្យាករណ៍ ប្រវត្តិពាក្យ និងនិមិត្តរូបនៃការទំនាក់ទំនង។' },
+            { khmer: 'ឥន្ទ្រីយ៍អារម្មណ៍', english: 'Sensory Perception', tag: 'មេរៀនទី៤/៨', meaning: 'ការទទួលសញ្ញាដំបូងពីពិភពខាងក្រៅតាមរយៈវិញ្ញាណទាំង ៥ ឬ ៦ (ភ្នែក ត្រចៀក ច្រមុះ អណ្តាត កាយ ចិត្ត)។' },
+            { khmer: 'សីលញាណ vs ចិត្តញាណ', english: 'Moral vs Cognitive Conscience', tag: 'មេរៀនទី៩', meaning: 'ចិត្តញាណប្រាប់ពីតថភាពជាក់ស្តែង ឯសីលញាណជាអ្នកសង្កេត ណែនាំ និងកាត់សេចក្តីលើតម្លៃសីលធម៌។' },
+            { khmer: 'វិធីអនុមានញែក', english: 'Deductive Method', tag: 'មេរៀនទី៦', meaning: 'ការពិចារណាទាញសេចក្តីសន្និដ្ឋានពីទ្រឹស្តីទូទៅ មកកាន់ករណីដោយឡែក។' },
+            { khmer: 'វិធីអនុមានរួម', english: 'Inductive Method', tag: 'មេរៀនទី៦', meaning: 'ការពិចារណាទាញសេចក្តីសន្និដ្ឋានពីករណីដោយឡែកៗជាច្រើន ទៅបង្កើតជាទ្រឹស្តីរួម។' },
+            { khmer: 'មនោនិយមបដិសំយោគ', english: 'Dialectical Idealism (Hegel)', tag: 'មេរៀនទី៦', meaning: 'ការថ្លឹងថ្លែងរវាងគំនិតដើម (Thesis) និងគំនិតផ្ទុយ (Anti-Thesis) ដើម្បីបង្កើតគំនិតថ្មី (Synthesis)។' },
+            { khmer: 'បដិច្ចសមុប្បាទ', english: 'Paticcasamuppada', tag: 'មេរៀនទី១១', meaning: 'ទ្រឹស្តីពុទ្ធសាសនាស្តីពីទំនាក់ទំនងហេតុ និងផលនៃធម៌ ១២ ប្រការដែលនាំឱ្យកើតសេចក្តីទុក្ខ។' }
+          ],
+
+          // Practice Exam Quiz Questions (15+ Questions for all 15 Lessons)
+          quizQuestions: [
+            {
+              id: 1,
+              lessonRef: 'មេរៀនទី១',
+              question: 'តាមលោក ពីតាហ្គ័រ (Pythagoras) ពាក្យទស្សនវិជ្ជា (Philosophia) មានន័យដើមយ៉ាងដូចម្តេច?',
+              options: [
+                'ការស្វែងរកទ្រព្យសម្បត្តិ',
+                'សេចក្តីស្រឡាញ់គតិបណ្ឌិត ឬស្រឡាញ់ប្រាជ្ញា',
+                'ការគ្រប់គ្រងរដ្ឋ',
+                'ការសិក្សាអំពីធម្មជាតិសុទ្ធសាធ'
+              ],
+              correctAnswer: 1,
+              userAnswer: null,
+              explanation: 'Philosophia មកពីពាក្យ Philia (សេចក្តីស្រឡាញ់) + Sophia (គតិបណ្ឌិត/ប្រាជ្ញា) មានន័យថា ការស្រឡាញ់គតិបណ្ឌិត។'
+            },
+            {
+              id: 2,
+              lessonRef: 'មេរៀនទី២',
+              question: 'តើស្តង់ដារនៃការគិតហ្មត់ចត់ (Critical Thinking Standards) មានប៉ុន្មានយ៉ាង?',
+              options: ['៥ យ៉ាង', '៦ យ៉ាង', '៧ យ៉ាង', '៨ យ៉ាង'],
+              correctAnswer: 3,
+              userAnswer: null,
+              explanation: 'ស្តង់ដារ ៨ យ៉ាងរួមមាន៖ Clarity, Precision, Accuracy, Logical Correctness, Consistency, Relevance, Completeness, និង Fairness។'
+            },
+            {
+              id: 3,
+              lessonRef: 'មេរៀនទី៣',
+              question: 'តើទស្សនវិជ្ជាមានលក្ខណៈវិទ្យាសាស្ត្រ ដោយសារកត្តាអ្វីខ្លះ?',
+              options: [
+                'មានកម្មវត្ថុសិក្សាច្បាស់លាស់ និងមានវិធីសាស្ត្រសិក្សាប្រព័ន្ធ',
+                'មានការបង្កើតទ្រឹស្តី រូបមន្ត និងអាចយកទៅអនុវត្តបាន',
+                'ប្រើប្រាស់ទឡីករណ៍គាំទ្រ ហេតុផល',
+                'ត្រូវទាំងអស់ខាងលើ'
+              ],
+              correctAnswer: 3,
+              userAnswer: null,
+              explanation: 'ទស្សនវិជ្ជាជាវិទ្យាសាស្ត្រព្រោះមានកម្មវត្ថុច្បាស់លាស់ មានវិធីសាស្ត្រ បង្កើតទ្រឹស្តី និងអាចយកទៅអនុវត្តក្នុងសង្គមបាន។'
+            },
+            {
+              id: 4,
+              lessonRef: 'មេរៀនទី៤',
+              question: 'តើផ្នែកណាខ្លះជាមែកធាងសំខាន់ៗនៃ ភាសាវិទ្យា (Linguistics)?',
+              options: [
+                'សូរវិទ្យា, សទ្ធវិទ្យា, ន័យវិទ្យា, សម្ព័ន្ធវិទ្យា, វេយ្យាករណ៍',
+                'រូបវិទ្យា, គីមីវិទ្យា, ជីវវិទ្យា',
+                'គណិតវិទ្យា, ធរណីមាត្រ',
+                'អក្សរផ្ចង់សុទ្ធសាធ'
+              ],
+              correctAnswer: 0,
+              userAnswer: null,
+              explanation: 'ភាសាវិទ្យាមានមែកធាងសំខាន់ៗដូចជា Phonetics, Phonology, Semantics, Lexicology, Syntax, Stylistics, Grammar, និង Dialect។'
+            },
+            {
+              id: 5,
+              lessonRef: 'មេរៀនទី៥',
+              question: 'តើទ្រឹស្តីបរានុម័តិ (Objective Theory) យល់យ៉ាងណាអំពី «តម្លៃ»?',
+              options: [
+                'តម្លៃអាស្រ័យលើមនុស្សជាអ្នកកំណត់តាមអារម្មណ៍',
+                'តម្លៃស្ថិតនៅក្នុងខ្លួនវត្ថុស្រាប់ មិនចំណុះលើចិត្តនរណាម្នាក់ឡើយ',
+                'តម្លៃគ្មានពិតប្រាកដនៅលើលោកនេះទេ',
+                'តម្លៃប្រែប្រួលតាមតែការផ្សាយពាណិជ្ជកម្ម'
+              ],
+              correctAnswer: 1,
+              userAnswer: null,
+              explanation: 'ទ្រឹស្តីបរានុម័តិ លើកឡើងថាតម្លៃជាសារជាតិកប់នៅក្នុងវត្ថុ (ដូចជាមាស) មិនចំណុះលើវេទនារម្មណ៍ ឬជំនឿឡើយ។'
+            },
+            {
+              id: 6,
+              lessonRef: 'មេរៀនទី៦',
+              question: 'តើវិធីតក្កវិជ្ជាណាដែលពិនិត្យពី Thesis, Anti-Thesis និង Synthesis របស់លោក Hegel?',
+              options: [
+                'វិធីអនុមានរួម',
+                'វិធីមនោនិយមបដិសំយោគ (Dialectical Idealism)',
+                'វិធីប្រៀបធៀប',
+                'វិធីពិសោធន៍'
+              ],
+              correctAnswer: 1,
+              userAnswer: null,
+              explanation: 'វិធីមនោនិយមបដិសំយោគរបស់ Hegel បង្កើតលំហ ៣៖ គំនិតដើម (Thesis), គំនិតផ្ទុយ (Anti-Thesis), និងការសំយោគជ្រើសរើស (Synthesis)។'
+            },
+            {
+              id: 7,
+              lessonRef: 'មេរៀនទី៧',
+              question: 'ហេតុអ្វីបានជាគេពោលថា សិល្បៈគឺជា «អាវុធមុខពីរ» ក្នុងសង្គម?',
+              options: [
+                'ព្រោះវាអាចជួយឱ្យសង្គមរីកចម្រើន ឬអាចធ្វើឱ្យសង្គមបែកបាក់ និងវប្បធម៌អាប់ឱន',
+                'ព្រោះវាធ្វើពីដែកថែប',
+                'ព្រោះវាប្រើសម្រាប់តែសង្គ្រាម',
+                'ព្រោះវាគ្មានតម្លៃអ្វីសោះ'
+              ],
+              correctAnswer: 0,
+              userAnswer: null,
+              explanation: 'សិល្បៈអាចអប់រំបណ្តុះស្មារតីសន្តិភាព និងការរីកចម្រើន ប៉ុន្តែក៏អាចត្រូវគេប្រើប្រាស់ជាឧបករណ៍បំបែកបំបាក់ និងបំផុសកំហឹងបានដែរ។'
+            },
+            {
+              id: 8,
+              lessonRef: 'មេរៀនទី៨',
+              question: 'តើលោក ហ្សេណូ (Zeno) ប្រើប្រៀបធៀបរូបភាពអ្វីខ្លះដើម្បីបង្ហាញពី «ពុទ្ធិ»?',
+              options: [
+                'បាតដៃលា ➔ បាតដៃក្ដោប ➔ កណ្តាប់ដៃក្តាប់ ➔ បាតដៃម្ខាងទៀតក្ដោបពីលើ',
+                'ការរត់ប្រណាំង',
+                'ការគូររូបលើក្រដាស',
+                'ការហែលទឹក'
+              ],
+              correctAnswer: 0,
+              userAnswer: null,
+              explanation: 'ហ្សេណូ ប្រៀបធៀបដំណាក់កាលពុទ្ធិ៖ លាបាតដៃ (ដឹង), ក្តោប (ពិចារណា), ក្តាប់ណែន (ពុទ្ធិ/ចេះ), និង ក្តោបពីលើ (ជំនឿ/ឧត្តមគតិ)។'
+            },
+            {
+              id: 9,
+              lessonRef: 'មេរៀនទី៩',
+              question: 'តើសីលញាណ (Moral Conscience) ខុសពី ចិត្តញាណ ត្រង់ចំណុចណា?',
+              options: [
+                'ចិត្តញាណប្រាប់ពីតថភាព ឯសីលញាណជាអ្នកសង្កេត ណែនាំ និងកាត់សេចក្តីលើតម្លៃអំពើ',
+                'សីលញាណគ្មាននៅក្នុងខ្លួនមនុស្សទេ',
+                'ចិត្តញាណកើតតែលើសត្វ',
+                'ដូចគ្នាបេះបិទ គ្មានខុសគ្នាទេ'
+              ],
+              correctAnswer: 0,
+              userAnswer: null,
+              explanation: 'ចិត្តញាណជាអ្នកប្រាប់ពីអ្វីជាការពិតតាមតថភាព ឯសីលញាណជាអ្នកសង្កេត ណែនាំ វិនិច្ឆ័យ និងកាត់សេចក្តីរកយុត្តិធម៌លើអំពើ។'
+            },
+            {
+              id: 10,
+              lessonRef: 'មេរៀនទី១១',
+              question: 'តើអរិយសច្ចៈ ៤ យ៉ាង (ចតុរារិយសច្ចៈ) ក្នុងពុទ្ធសាសនារួមមានអ្វីខ្លះ?',
+              options: [
+                'ទុក្ខ, សមុទ្ទយ, និរោធ, មគ្គ',
+                'សីល ៥, សីល ៨, សីល ១០, វិន័យ',
+                'កាយកម្ម, វចីកម្ម, មនោកម្ម, កម្មផល',
+                'កើត, ចាស់, ឈឺ, ស្លាប់'
+              ],
+              correctAnswer: 0,
+              userAnswer: null,
+              explanation: 'ចតុរារិយសច្ចៈ គឺ ទុក្ខអរិយសច្ចៈ, សមុទ្ទយអរិយសច្ចៈ, និរោធអរិយសច្ចៈ, និង មគ្គអរិយសច្ចៈ។'
+            },
+            {
+              id: 11,
+              lessonRef: 'មេរៀនទី១២',
+              question: 'តើលោក ចន ឡក (John Locke) ប្រើពាក្យ «Tabula Rasa» ដើម្បីមានន័យដូចម្តេច?',
+              options: [
+                'ខួរក្បាលមនុស្សកើតមកទទេស្អាតដូចក្រដាសស គ្មានគំនិតពីកំណើតឡើយ',
+                'ខួរក្បាលមនុស្សមានចំណេះដឹងពេញលេញពីកំណើត',
+                'មនុស្សកើតមកមានបាបពីកំណើត',
+                'ការគិតរបស់មនុស្សអាស្រ័យលើវាសនា'
+              ],
+              correctAnswer: 0,
+              userAnswer: null,
+              explanation: 'Tabula Rasa របស់លោក John Locke បញ្ជាក់ថា ខួរក្បាលមនុស្សទទេស្អាត ឯគំនិត និងពុទ្ធិទាំងឡាយកើតចេញពីបទពិសោធន៍ និងឥន្ទ្រីយារម្មណ៍។'
+            },
+            {
+              id: 12,
+              lessonRef: 'មេរៀនទី១៣',
+              question: 'តាមលោក នីឈើ (Nietzsche) តើនរណាជាមនុស្សដែលជិតសិ្នទ្ធបំផុតនឹងឧត្តមគតិ «អច្ឆរិយបុគ្គល (Übermensch)»?',
+              options: [
+                'លោក ហ្គូតា (Goethe)',
+                'លោក ណាប៉ូឡេអ៊ុង',
+                'លោក សេសារ',
+                'លោក អាល់បឺត កាមុស'
+              ],
+              correctAnswer: 0,
+              userAnswer: null,
+              explanation: 'លោក Nietzsche មើលឃើញថា លោក Goethe ជាស្មារតីសេរីដែលបានបង្កើតខ្លួនឯង អប់រំខ្លួនឯង និងជិតសិ្នទ្ធបំផុតនឹងអច្ឆរិយបុគ្គល។'
+            },
+            {
+              id: 13,
+              lessonRef: 'មេរៀនទី១៤',
+              question: 'តើសុភមង្គល «អាតារ៉ាក់ស៊ី» (Ataraxia) តាមទស្សនវិជ្ជា អេពីគួរ (Epicure) មានន័យដូចម្តេច?',
+              options: [
+                'ការមានទ្រព្យសម្បត្តិស្តុកស្តម្ភ',
+                'សេចក្តីស្ងប់ស្ងាត់នៃព្រលឹង ឬការបំបាត់ទុក្ខព្រួយកង្វល់ក្នុងចិត្ត',
+                'ការទទួលបានអំណាចនយោបាយខ្ពស់',
+                'ការសប្បាយល្មោភគ្រឿងស្រវឹង'
+              ],
+              correctAnswer: 1,
+              userAnswer: null,
+              explanation: 'Ataraxia គឺជាពាក្យសីលវិជ្ជាអេពីគួរ មានន័យថា សេចក្តីស្ងប់ស្ងាត់នៃព្រលឹង ដែលផុតពីការឈឺចាប់ និងកង្វល់។'
+            },
+            {
+              id: 14,
+              lessonRef: 'មេរៀនទី១៥',
+              question: 'តើការកម្សាន្តជ្រុលលើ Social Media ជះឥទ្ធិពលអវិជ្ជមានអ្វីខ្លះដល់ការគិតរបស់យុវជន?',
+              options: [
+                'បាត់បង់ការគិតស៊ីជម្រៅ (Deep Thinking)',
+                'ធ្វើឱ្យសុខភាពផ្លូវចិត្តទន់ខ្សោយ',
+                'គ្មានគោលដៅជីវិតច្បាស់លាស់',
+                'ត្រូវទាំងអស់ខាងលើ'
+              ],
+              correctAnswer: 3,
+              userAnswer: null,
+              explanation: ' Social Media អាចបង្កផលប៉ះពាល់៖ ការកម្សាន្តជ្រុល, សុខភាពផ្លូវចិត្តខ្សោយ, គ្មានគោលដៅ, និងបាត់បង់ការគិតស៊ីជម្រៅ។'
+            }
+          ]
+        }
+      },
+
+      computed: {
+        filteredLessons() {
+          let list = this.lessons;
+          if (this.selectedLessonFilter !== 'all') {
+            list = list.filter(l => l.id === this.selectedLessonFilter);
+          }
+          if (this.searchQuery) {
+            const q = this.searchQuery.toLowerCase();
+            list = list.filter(l => 
+              l.title.toLowerCase().includes(q) || 
+              l.subtitle.toLowerCase().includes(q) ||
+              l.tags.some(t => t.toLowerCase().includes(q))
+            );
+          }
+          return list;
+        },
+
+        filteredFlashcards() {
+          if (this.selectedFlashcardCategory === 'all') return this.flashcards;
+          return this.flashcards.filter(c => c.category === this.selectedFlashcardCategory);
+        },
+
+        progressPercent() {
+          const lessonWeight = (this.studiedLessons.length / this.lessons.length) * 50;
+          const answeredCount = this.quizQuestions.filter(q => q.userAnswer !== null).length;
+          const quizWeight = (answeredCount / this.quizQuestions.length) * 50;
+          return Math.round(lessonWeight + quizWeight);
+        },
+
+        quizScore() {
+          return this.quizQuestions.reduce((acc, q) => {
+            return (q.userAnswer === q.correctAnswer) ? acc + 1 : acc;
+          }, 0);
+        }
+      },
+
+      methods: {
+        toggleTheme() {
+          this.isDarkMode = !this.isDarkMode;
+          if (this.isDarkMode) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        },
+
+        openLessonModal(lesson) {
+          this.activeLessonModal = lesson;
+        },
+
+        toggleStudyStatus(id) {
+          if (this.studiedLessons.includes(id)) {
+            this.studiedLessons = this.studiedLessons.filter(lId => lId !== id);
+          } else {
+            this.studiedLessons.push(id);
+          }
+          localStorage.setItem('studiedLessons', JSON.stringify(this.studiedLessons));
+        },
+
+        selectAnswer(qIndex, optIdx) {
+          if (this.quizQuestions[qIndex].userAnswer === null) {
+            this.quizQuestions[qIndex].userAnswer = optIdx;
+          }
+        },
+
+        getOptionClass(q, optIdx) {
+          if (q.userAnswer === null) {
+            return 'bg-slate-50 dark:bg-slate-700/60 border-slate-200 dark:border-slate-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 text-slate-800 dark:text-slate-200';
+          }
+          if (optIdx === q.correctAnswer) {
+            return 'bg-emerald-100 dark:bg-emerald-900/50 border-emerald-500 text-emerald-900 dark:text-emerald-200 font-bold';
+          }
+          if (q.userAnswer === optIdx && optIdx !== q.correctAnswer) {
+            return 'bg-rose-100 dark:bg-rose-900/50 border-rose-500 text-rose-900 dark:text-rose-200';
+          }
+          return 'bg-slate-50 dark:bg-slate-800/40 border-slate-200 dark:border-slate-700 text-slate-400 opacity-60';
+        },
+
+        resetQuiz() {
+          this.quizQuestions.forEach(q => q.userAnswer = null);
+        }
+      },
+
+      mounted() {
+        const saved = localStorage.getItem('studiedLessons');
+        if (saved) {
+          try {
+            this.studiedLessons = JSON.parse(saved);
+          } catch(e) {}
+        }
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
